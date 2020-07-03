@@ -15,7 +15,7 @@ public class ModelUser {
     private String cpf;
     private String rg;
     private String img;
-    private ModelEndereco endereco;
+    private int endereco;
 
     public int getId() {
         return id;
@@ -89,11 +89,11 @@ public class ModelUser {
         this.img = img;
     }
 
-    public ModelEndereco getEndereco() {
+    public int getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(ModelEndereco endereco) {
+    public void setEndereco(int endereco) {
         this.endereco = endereco;
     }
     

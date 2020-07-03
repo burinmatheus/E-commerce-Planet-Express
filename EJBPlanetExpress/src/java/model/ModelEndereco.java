@@ -11,6 +11,7 @@ public class ModelEndereco {
     private String cidade;
     private String estado_nome;
     private String estado_sigla;
+    private int estado;
     private String cep;
     private String bairro;
     private String rua;
@@ -78,6 +79,18 @@ public class ModelEndereco {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public void setNumero(String numero) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

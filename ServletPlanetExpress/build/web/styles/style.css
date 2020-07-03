@@ -1,0 +1,218 @@
+html {
+    font-family: 'Montserrat', sans-serif;
+    font: 16px arial;
+    background-color: #404040;
+}
+
+#corpo {
+    width: 100%;
+    max-width: 90em;
+    min-width: 20em;
+    margin: 0 auto;
+}
+
+
+/*APRESENTAÇÃO*/
+
+#apresentacao {
+    color: white;
+}
+
+#apresentacao header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    box-shadow: 0 0 8px 0px #00000069;
+    backdrop-filter: blur(22px);
+}
+
+#apresentacao header a.menu-icon {
+    display: inline-block;
+    vertical-align: top;
+    margin: 1em;
+    cursor: pointer;
+}
+
+#apresentacao header .logo {
+    width: 8em;
+    position: absolute;
+    left: calc((100% - 8em) /2);
+    top: -.2em;
+    cursor: pointer;
+}
+
+#apresentacao a.menu-icon div {
+    background-color: white;
+    width: 25px;
+    height: 5px;
+    margin: 4px;
+}
+
+#apresentacao a.menu-icon div:first-child {
+    width: 18px;
+    transition: .5s;
+}
+
+#apresentacao a.menu-icon:hover div:first-child {
+    width: 25px;
+}
+
+#apresentacao header span {
+    right: 1em;
+    top: 1em;
+    position: absolute;
+}
+
+#apresentacao header span img {
+    width: 1.9em;
+    cursor: pointer;
+}
+
+#apresentacao header span img+img {
+    margin-left: .2em;
+}
+
+#apresentacao header span img.lupa {
+    width: 1.23em;
+}
+
+#apresentacao i {
+    font-size: 2em;
+    position: absolute;
+    top: 47%;
+}
+
+#apresentacao #apresentacao-esq i {
+    right: 51%;
+}
+
+#apresentacao #apresentacao-dir i {
+    left: 51%;
+}
+
+#apresentacao #apresentacao-esq {
+    background-color: #36538B;
+    width: 50%;
+    margin: 0;
+    float: left;
+    height: 100vh;
+}
+
+#apresentacao #apresentacao-dir {
+    background-color: #404040;
+    width: 50%;
+    margin: 0;
+    height: 100vh;
+    float: right;
+}
+
+#apresentacao .apresentacao-conteudo {
+    margin: 31vh 0 0 9vh;
+    width: 74%;
+}
+
+#apresentacao #apresentacao-esq span h1,
+#apresentacao #apresentacao-dir span h1 {
+    margin: 0;
+    font-size: 3.3rem;
+}
+
+#apresentacao #apresentacao-esq p,
+#apresentacao #apresentacao-dir p {
+    color: rgba(255, 255, 255, 0.42);
+    height: 6em;
+}
+
+#apresentacao .btn {
+    display: block;
+    width: 232px;
+    height: 38px;
+    background: none;
+    border: 4px solid;
+    color: white;
+    font-weight: bolder;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 1.3em;
+    text-align: center;
+    padding-top: 17px;
+    position: relative;
+    margin: 2em auto 0;
+}
+
+#apresentacao .btn:hover {
+    color: #36538B;
+}
+
+#apresentacao #apresentacao-esq .btn:hover {
+    color: #404040;
+}
+
+#apresentacao .btn::before,
+.btn::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 5px;
+    background: #404040;
+    transform: skewX(50deg);
+    transition: .4s linear;
+}
+
+#apresentacao #apresentacao-esq .btn::before,
+#apresentacao #apresentacao-esq .btn::after {
+    background: #36538B;
+}
+
+#apresentacao .btn::before {
+    top: -4px;
+    left: 10%;
+}
+
+#apresentacao .btn::after {
+    bottom: -4px;
+    right: 10%;
+}
+
+#apresentacao .btn:hover::before {
+    left: 80%;
+}
+
+#apresentacao .btn:hover::after {
+    right: 80%;
+}
+
+
+/*LOGIN*/
+
+#corpo #formlogreg .background {
+    background-image: url(../img/backgrnd.jpg);
+    background-size: cover;
+    height: 100vh;
+    filter: blur(3px) brightness(0.1);
+}
+
+#corpo #formlogreg #formlogreg-externo {
+    position: absolute;
+    width: 65%;
+    height: 75%;
+    left: 17.5%;
+    top: 12.5%;
+    background: #121212;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.32);
+    border-radius: 19px;
+}
+
+#corpo #formlogreg #formlogreg-externo #formlogreg-interno {
+    position: relative;
+    width: calc(100% - 2em);
+    height: calc(100% - 2em);
+    left: 1em;
+    top: -.33em;
+    background: #36538B;
+    box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 19px;
+}

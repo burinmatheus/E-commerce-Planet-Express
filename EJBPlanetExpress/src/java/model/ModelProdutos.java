@@ -1,4 +1,3 @@
-
 package model;
 
 /**
@@ -6,6 +5,7 @@ package model;
  * @author Matheus M. Burin
  */
 public class ModelProdutos {
+
     private int id;
     private String marca;
     private String nome;
@@ -13,8 +13,6 @@ public class ModelProdutos {
     private double valor;
     private int desconto;
     private String img;
-    private String cor;
-    private String tamanho;
     private String categoria;
     private String segmento;
 
@@ -66,22 +64,6 @@ public class ModelProdutos {
         this.desconto = desconto;
     }
 
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -105,6 +87,5 @@ public class ModelProdutos {
     public void setImg(String img) {
         this.img = img;
     }
-    
-    
+
 }
