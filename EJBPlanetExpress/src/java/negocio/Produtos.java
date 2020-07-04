@@ -3,11 +3,10 @@ package negocio;
 import dao.DAOprodutos;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.ModelImagens;
 import model.ModelProdutos;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,36 +17,46 @@ import org.json.JSONObject;
  */
 @Stateless
 public class Produtos {
-    
-        public String listarProduto(HttpServletRequest request, HttpServletResponse response) {
+
+    public String listarProduto(HttpServletRequest request, HttpServletResponse response) {
         try {
 
             ModelProdutos produto = new DAOprodutos().listarProduto(Integer.parseInt(request.getParameter("id")));
+            List<ModelImagens> imagens = new DAOprodutos().buscarImagens(Integer.parseInt(request.getParameter("id")));
             
             JSONObject retorno = new JSONObject();
 
-            JSONArray arrayRetorno = new JSONArray();
-            JSONObject json;
+            JSONObject json = new JSONObject();
 
-                json = new JSONObject();
+            json.put("id", produto.getId());
+            json.put("nome", produto.getNome());
+            json.put("marca", produto.getMarca());
+            json.put("valor", produto.getValor());
+            json.put("desconto", produto.getDesconto());
+            json.put("descricao", produto.getDescricao());
+                        
+            JSONArray arrayImagens = new JSONArray();
+            JSONObject jimgs;
+            for (ModelImagens imagem : imagens) {
 
-                json.put("id", produto.getId());
-                json.put("nome", produto.getNome());
-                json.put("marca", produto.getMarca());
-                json.put("valor", produto.getValor());
-                json.put("desconto", produto.getDesconto());
-                json.put("descricao", produto.getDescricao());
+                jimgs = new JSONObject();
 
-                arrayRetorno.put(json);
+                jimgs.put("id", imagem.getId());
+                jimgs.put("img", imagem.getImg());
 
-            retorno.put("titulo", "Todos");
-            retorno.put("produtos", arrayRetorno);
+                arrayImagens.put(jimgs);
+            }
+            
+            json.put("imagens", arrayImagens);
+            
+            retorno.put("titulo", "Produto");
+            retorno.put("produtos", json);
 
             response.setStatus(200);
             return retorno.toString();
         } catch (SQLException ex) {
             response.setStatus(400);
-            return ("{\"erro\":\"Erro ao listar!\"}");
+            return ("{\"erro\":\"Erro ao buscar detalhes do produto!\"}");
         }
 
     }

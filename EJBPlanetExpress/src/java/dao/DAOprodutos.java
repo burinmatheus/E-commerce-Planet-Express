@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.ModelCores;
 import model.ModelEstoque;
+import model.ModelImagens;
 import model.ModelProdutos;
 import model.ModelTamanhos;
 
@@ -24,27 +25,54 @@ public class DAOprodutos {
         con = DatabaseConnection.getInstance().getConnection();
     }
     
+    public List<ModelImagens> buscarImagens(int id) throws SQLException {
+        List<ModelImagens> imagens = new ArrayList<>();
+ 
+        String sql = "SELECT ID_IMG_PRODUTO, IMG " +
+                        "FROM IMG_PRODUTO " +
+                            "WHERE PRODUTO_ID = "+id+" ; ";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ModelImagens imagem = new ModelImagens();
+
+            imagem.setId(rs.getInt("ID_IMG_PRODUTO"));
+            imagem.setImg(rs.getString("IMG"));
+            
+            imagens.add(imagem);
+        }
+        rs.close();
+        ps.close();
+
+        return imagens;
+    }
+    
     public ModelProdutos listarProduto(int id) throws SQLException {
         ModelProdutos produto = new ModelProdutos();
  
         String sql = "SELECT P.ID_PRODUTO, M.NOME AS MARCA, P.NOME, P.VALOR, P.DESCONTO, P.DESCRICAO " +
                         "FROM produtos P " +
                             "JOIN marcas M ON P.MARCA_ID = M.ID_MARCA " +
-                                "WHERE P.ID_PRODUTO = "+ id +" ; ";
+                                "WHERE P.ID_PRODUTO = ? ";
 
         PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         
+        if (rs.next()) {
         produto.setId(rs.getInt("ID_PRODUTO"));
         produto.setMarca(rs.getString("MARCA"));
         produto.setNome(rs.getString("NOME"));
         produto.setDescricao(rs.getString("DESCRICAO"));
         produto.setValor(rs.getDouble("VALOR"));
         produto.setDesconto(rs.getInt("DESCONTO"));
+        }
         
         rs.close();
         ps.close();
-
+        
         return produto;
     }
     

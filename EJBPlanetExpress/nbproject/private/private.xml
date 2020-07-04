@@ -4,9 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/Produtos.java</file>
-            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/model/ModelUser.java</file>
-            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/model/ModelProdutos.java</file>
-            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/dao/DAOprodutos.java</file>
+            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/shash/Seguranca.java</file>
+            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/dao/DAOuser.java</file>
+            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/Sessao.java</file>
+            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/shash/SToken.java</file>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/User.java</file>
         </group>
     </open-files>

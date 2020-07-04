@@ -25,6 +25,25 @@ public class DAOuser {
         con = DatabaseConnection.getInstance().getConnection();
     }
 
+    public ModelUser buscarUser(String login) throws SQLException {
+        String sql = "SELECT ID_USUARIO, NOME, IMG " +
+                        "FROM USUARIOS " +
+                            "WHERE (UPPER(EMAIL) = UPPER("+login+")) OR (UPPER(CPF) = UPPER("+login+")) ; ";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        ModelUser user = new ModelUser();
+        user.setId(rs.getInt("ID_USUARIO"));
+        user.setImg(rs.getString("IMG"));
+        user.setNome(rs.getString("NOME"));
+
+        rs.close();
+        ps.close();
+        
+        return user;
+    }
+
     public String pegashash(int iduser) throws SQLException {
         String sql = "SELECT SHASH "
                 + "FROM usuarios "
@@ -32,7 +51,11 @@ public class DAOuser {
 
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        return rs.getString("SHASH");
+
+        String shash = rs.getString("SHASH");
+        rs.close();
+        ps.close();
+        return shash;
     }
 
     public int novoendereco(ModelEndereco end) throws SQLException {
@@ -48,13 +71,15 @@ public class DAOuser {
         ps.setString(5, end.getRua());
         ps.setInt(6, end.getNumero());
         ResultSet rs = ps.executeQuery();
-        
-        if(rs.next()){
-         return rs.getInt("ID_ENDERECO");
-        }else{
-        return 0;
-        }
 
+        int id = 0;
+
+        if (rs.next()) {
+            id = rs.getInt("ID_ENDERECO");
+        }
+        rs.close();
+        ps.close();
+        return id;
     }
 
     public String novoUsuario(ModelUser user) throws SQLException {
@@ -73,12 +98,17 @@ public class DAOuser {
         ps.setString(8, user.getRg());
         ps.setInt(9, user.getEndereco());
         ResultSet rs = ps.executeQuery();
-        
-        if(rs.next()){
-         return rs.getString("nome");
-        }else{
-        return "ERROR";
+
+        String nome = null;
+        if (rs.next()) {
+            nome = rs.getString("nome");
+
+        } else {
+            nome = "ERROR";
         }
+        rs.close();
+        ps.close();
+        return nome;
     }
 
 }
