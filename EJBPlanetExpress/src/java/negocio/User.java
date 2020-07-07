@@ -1,18 +1,15 @@
 package negocio;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
 import dao.DAOuser;
 import java.sql.SQLException;
-import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.ModelEndereco;
 import model.ModelUser;
 import org.json.JSONObject;
-import shash.Seguranca;
-import shash.SToken;
+import utils.Seguranca;
+import utils.JWTGen;
 
 /**
  *
@@ -132,18 +129,18 @@ public class User {
         if (request.getParameter("senha") != null) {
             senha = request.getParameter("senha");
         }
-        
+
         boolean accept = new Seguranca().autentica(senha, id);
-        if (true) {
-            String tkn = new SToken().gerador(" "+id);
 
-            response.setStatus(201);
-            return ("{\"token\":\"" + tkn + "\"}");
+        String resposta;
+        if (accept) {
+            String token = JWTGen.gerador(request.getParameter("username"), "" + id);
 
+            resposta = ("{\"token\":\"" + token + "\"}");
         } else {
-            response.setStatus(400);
-            return ("{\"erro\":\"Senha Inválida\"}");
+            resposta = ("{\"erro\":\"Usuário ou senha incorretos!\"}");
         }
+        return resposta;
     }
 
     public int novoEndereco(HttpServletRequest request, HttpServletResponse response) {

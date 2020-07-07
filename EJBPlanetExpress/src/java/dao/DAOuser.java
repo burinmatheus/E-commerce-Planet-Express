@@ -26,9 +26,9 @@ public class DAOuser {
     }
 
     public ModelUser buscarUser(String login) throws SQLException {
-        String sql = "SELECT ID_USUARIO, NOME, IMG " +
-                        "FROM USUARIOS " +
-                            "WHERE (UPPER(EMAIL) = UPPER("+login+")) OR (UPPER(CPF) = UPPER("+login+")) ; ";
+        String sql = "SELECT ID_USUARIO, NOME, IMG "
+                + "FROM USUARIOS "
+                + "WHERE (UPPER(EMAIL) = UPPER(" + login + ")) OR (UPPER(CPF) = UPPER(" + login + ")) ; ";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -40,19 +40,23 @@ public class DAOuser {
 
         rs.close();
         ps.close();
-        
+
         return user;
     }
 
     public String pegashash(int iduser) throws SQLException {
-        String sql = "SELECT SHASH "
+        String sql = "SELECT SHASH as senha "
                 + "FROM usuarios "
-                + "WHERE ID_USUARIO = " + iduser + " ;";
+                + "WHERE ID_USUARIO = ? ; ";
 
         PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, iduser);
         ResultSet rs = ps.executeQuery();
-
-        String shash = rs.getString("SHASH");
+        
+        String shash = null;
+        if (rs.next()) {
+            shash = rs.getString("senha");
+        }
         rs.close();
         ps.close();
         return shash;

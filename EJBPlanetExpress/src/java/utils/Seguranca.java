@@ -1,4 +1,4 @@
-package shash;
+package utils;
 
 import dao.DAOuser;
 import java.sql.SQLException;
@@ -42,4 +42,5 @@ public class Seguranca {
             return false;
         }
     }
+
 }

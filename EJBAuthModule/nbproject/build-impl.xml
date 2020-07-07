@@ -15,7 +15,7 @@ is divided into following sections:
   - cleanup
 
         -->
-<project xmlns:ejbjarproject1="http://www.netbeans.org/ns/j2ee-ejbjarproject/1" xmlns:ejbjarproject2="http://www.netbeans.org/ns/j2ee-ejbjarproject/2" xmlns:ejbjarproject3="http://www.netbeans.org/ns/j2ee-ejbjarproject/3" basedir=".." default="default" name="EJBPlanetExpress-impl">
+<project xmlns:ejbjarproject1="http://www.netbeans.org/ns/j2ee-ejbjarproject/1" xmlns:ejbjarproject2="http://www.netbeans.org/ns/j2ee-ejbjarproject/2" xmlns:ejbjarproject3="http://www.netbeans.org/ns/j2ee-ejbjarproject/3" basedir=".." default="default" name="EJBAuthModule-impl">
     <import file="ant-deploy.xml"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
@@ -408,7 +408,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                     </fileset>
                 </union>
                 <taskdef classname="org.testng.TestNGAntTask" classpath="${run.test.classpath}" name="testng"/>
-                <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="EJBPlanetExpress" testname="TestNG tests" workingDir="${basedir}">
+                <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="EJBAuthModule" testname="TestNG tests" workingDir="${basedir}">
                     <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
                     <propertyset>
                         <propertyref prefix="test-sys-prop."/>
@@ -560,7 +560,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                 <condition else="-testclass @{testClass}" property="test.class.or.method" value="-methods @{testClass}.@{testMethod}">
                     <isset property="test.method"/>
                 </condition>
-                <condition else="-suitename EJBPlanetExpress -testname @{testClass} ${test.class.or.method}" property="testng.cmd.args" value="@{testClass}">
+                <condition else="-suitename EJBAuthModule -testname @{testClass} ${test.class.or.method}" property="testng.cmd.args" value="@{testClass}">
                     <matches pattern=".*\.xml" string="@{testClass}"/>
                 </condition>
                 <delete dir="${build.test.results.dir}" quiet="true"/>
@@ -793,25 +793,21 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="compile,-library-inclusion-in-archive-weblogic,-library-inclusion-in-archive-by-user" name="library-inclusion-in-archive"/>
     <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
-        <copyfiles files="${file.reference.json-20190722.jar}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.DatabaseConnection.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.jjwt-0.9.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.EJBConnection.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
-        <basename file="${file.reference.json-20190722.jar}" property="manifest.file.reference.json-20190722.jar"/>
-        <basename file="${file.reference.DatabaseConnection.jar}" property="manifest.file.reference.DatabaseConnection.jar"/>
         <basename file="${file.reference.jjwt-0.9.1.jar}" property="manifest.file.reference.jjwt-0.9.1.jar"/>
+        <basename file="${file.reference.EJBConnection.jar}" property="manifest.file.reference.EJBConnection.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
-            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.json-20190722.jar}"/>
-            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.DatabaseConnection.jar}"/>
-            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.jjwt-0.9.1.jar}"/>
+            <attribute name="Extension-List" value="jar-1 jar-2 "/>
+            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.jjwt-0.9.1.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.EJBConnection.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
-        <copyfiles files="${file.reference.json-20190722.jar}" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.DatabaseConnection.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jjwt-0.9.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.EJBConnection.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">
