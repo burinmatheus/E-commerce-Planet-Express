@@ -8,11 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.ModelCores;
-import model.ModelEstoque;
 import model.ModelImagens;
 import model.ModelProdutos;
-import model.ModelTamanhos;
 
 /**
  *
