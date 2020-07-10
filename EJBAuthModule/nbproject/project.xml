@@ -7,6 +7,7 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">file.reference.jjwt-0.9.1.jar</included-library>
             <included-library dirs="200">file.reference.EJBConnection.jar</included-library>
+            <included-library dirs="200">file.reference.json-20190722.jar</included-library>
             <source-roots>
                 <root id="src.dir" name="Pacotes de Códigos-fonte"/>
             </source-roots>

@@ -191,7 +191,11 @@ public class User {
         }
     }
 
-    public String modificarUsuario(HttpServletRequest request, HttpServletResponse response) {
+    public String modificarUsuario(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
+
+        JSONObject jsonA = new JSONObject(jsonAuth);
+
+        int id = jsonA.getInt("user_id");
 
         String nome = null;
         String sobrenome = null;
@@ -199,7 +203,6 @@ public class User {
         String telefone = null;
         String cpf = null;
         String img = null;
-        int id = 0;
 
         if (request.getParameter("nome") != null) {
             nome = request.getParameter("nome");
@@ -219,10 +222,6 @@ public class User {
 
         if (request.getParameter("cpf") != null) {
             cpf = request.getParameter("cpf");
-        }
-
-        if (request.getParameter("id") != null) {
-            id = Integer.parseInt(request.getParameter("id"));
         }
 
         if (request.getParameter("img") != null) {
@@ -251,10 +250,13 @@ public class User {
 
     }
 
-    public String modificarSenha(HttpServletRequest request, HttpServletResponse response) {
+    public String modificarSenha(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
+
+        JSONObject jsonA = new JSONObject(jsonAuth);
+
+        int id = jsonA.getInt("user_id");
 
         String cpf = null;
-        int id = 0;
         String senha = null;
 
         if (request.getParameter("senha") != null) {
@@ -263,10 +265,6 @@ public class User {
 
         if (request.getParameter("cpf") != null) {
             cpf = request.getParameter("cpf");
-        }
-
-        if (request.getParameter("id") != null) {
-            id = Integer.parseInt(request.getParameter("id"));
         }
 
         try {
@@ -286,15 +284,19 @@ public class User {
         }
     }
 
-    public String modificaEndereco(HttpServletRequest request, HttpServletResponse response) {
+    public String modificaEndereco(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+
+            JSONObject jsonA = new JSONObject(jsonAuth);
+
+            int id_user = jsonA.getInt("user_id");
+
             String cidade = " ";
             int estado = 1;
             String cep = " ";
             String bairro = " ";
             String rua = " ";
             int numero = 0;
-            int id_user = 0;
             String cpf = " ";
 
             if (request.getParameter("cidade") != null) {
@@ -323,10 +325,6 @@ public class User {
 
             if (request.getParameter("cpf") != null) {
                 cpf = request.getParameter("cpf");
-            }
-
-            if (request.getParameter("id") != null) {
-                id_user = Integer.parseInt(request.getParameter("id"));
             }
 
             ModelEndereco endereco = new ModelEndereco();

@@ -1,0 +1,176 @@
+html {
+    font-family: 'Montserrat', sans-serif;
+    font: 16px arial;
+    background-color: #404040;
+}
+
+#corpo,
+#content {
+    width: 100%;
+    max-width: 90em;
+    min-width: 20em;
+    margin: 0 auto;
+}
+
+
+/*LOGIN*/
+
+#corpo #formlogreg .background {
+    background-image: url(../img/backgrnd.jpg);
+    background-size: cover;
+    height: 100vh;
+    filter: blur(3px) brightness(0.1);
+}
+
+#corpo #formlogreg #formlogreg-externo {
+    position: absolute;
+    width: 65%;
+    height: 75%;
+    left: 17.5%;
+    top: 12.5%;
+    background: #121212;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.32);
+    border-radius: 19px;
+}
+
+#corpo #formlogreg #formlogreg-externo #formlogreg-interno {
+    position: relative;
+    width: calc(100% - 2em);
+    height: calc(100% - 2em);
+    left: 1em;
+    top: 1em;
+    background: #36538B;
+    box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 19px;
+}
+
+#corpo #formlogreg #formlogreg-esq,
+#corpo #formlogreg #formlogreg-dir {
+    display: inline-block;
+    width: 49%;
+}
+
+#corpo #formlogreg div h1 {
+    color: #2E4676;
+    font-size: 5.3em;
+    display: block;
+    text-align: center;
+    text-shadow: 0 0 0px black;
+}
+
+#corpo #formlogreg div p {
+    width: 83%;
+    color: white;
+    text-align: justify;
+    margin: 1em auto;
+}
+
+#corpo #formlogreg div a {
+    width: 89%;
+    color: black;
+    text-align: center;
+    display: block;
+    margin-top: 4em;
+    font-size: .8em;
+    cursor: pointer;
+}
+
+#corpo #formlogreg div img {
+    border-radius: 100%;
+    width: 10em;
+    display: block;
+    margin: 3em auto 2em;
+}
+
+#corpo #formlogreg form {
+    display: block;
+    width: 77%;
+    margin: 0 auto;
+}
+
+#corpo #formlogreg .inlog {
+    width: 100%;
+    height: 2.3em;
+    border-radius: 4px;
+    border: none;
+    padding-left: 1em;
+    background-color: #2E4676;
+    margin: 1em 0 0 0;
+}
+
+#corpo #formlogreg .inlog::placeholder {
+    color: rgba(0, 0, 0, 0.33);
+}
+
+#corpo #formlogreg .btn {
+    background-color: #F1E74B;
+    color: #404040;
+    font-weight: bolder;
+    padding: 0;
+    width: 106%;
+    cursor: pointer;
+}
+
+#corpo #formlogreg form a {
+    display: block;
+    font-size: .7em;
+    cursor: pointer;
+}
+
+
+/*TROCAIMG*/
+
+#corpo .trocaImg {
+    position: absolute;
+    top: 36vh;
+    left: calc(89vh / 2);
+    z-index: 100000000000000;
+    background-color: #404040;
+    padding: 2em;
+    border-radius: 20px;
+}
+
+#corpo .trocaImg img {
+    width: 6em;
+    border-radius: 100%;
+    margin: 3em auto 2em;
+    cursor: pointer;
+}
+
+#corpo .trocaImg p {
+    color: white;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 2em;
+}
+
+
+/*REGISTRO*/
+
+#corpo #formlogreg-interno #reg {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+#corpo #formlogreg-interno #reg #formReg-esq,
+#corpo #formlogreg-interno #reg #formReg-dir {
+    display: inline-block;
+    width: 49%;
+}
+
+#corpo #formlogreg-interno #reg #regpt2 h1 {
+    font-size: 3em;
+    margin: .7em 0 0 0;
+}
+
+#corpo #formlogreg-interno #reg #regpt2 select {
+    width: 104%;
+}
+
+#corpo #reg #regpt2 #informacoesP,
+#corpo #reg #regpt2 #informacoesE {
+    box-sizing: border-box;
+    width: 84%;
+    margin: 0 auto;
+}

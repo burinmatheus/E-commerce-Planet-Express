@@ -19,14 +19,13 @@ import org.json.JSONObject;
 @Stateless
 public class Favoritos {
 
-    public String adicionarFavoritos(HttpServletRequest request, HttpServletResponse response) {
+    public String adicionarFavoritos(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
 
-        int id_user = 0;
+        JSONObject jsonA = new JSONObject(jsonAuth);
+
+        int id_user = jsonA.getInt("user_id");
+
         int id_produto = 0;
-
-        if (request.getParameter("id_user") != null) {
-            id_user = Integer.parseInt(request.getParameter("id_user"));
-        }
 
         if (request.getParameter("id_produto") != null) {
             id_produto = Integer.parseInt(request.getParameter("id_produto"));
@@ -49,10 +48,13 @@ public class Favoritos {
 
     }
 
-    public String listarFavoritos(HttpServletRequest request, HttpServletResponse response) {
+    public String listarFavoritos(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            List<ModelProdutos> produtos = new DAOfavoritos().buscarFavoritos(Integer.parseInt(request.getParameter("pg")), Integer.parseInt(request.getParameter("id_user")));
+            int id_user = jsonA.getInt("user_id");
+
+            List<ModelProdutos> produtos = new DAOfavoritos().buscarFavoritos(Integer.parseInt(request.getParameter("pg")), id_user);
 
             JSONObject retorno = new JSONObject();
 
@@ -84,14 +86,13 @@ public class Favoritos {
 
     }
 
-    public String removerFavoritos(HttpServletRequest request, HttpServletResponse response) {
+    public String removerFavoritos(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
+        
+        JSONObject jsonA = new JSONObject(jsonAuth);
 
-        int id_user = 0;
+        int id_user = jsonA.getInt("user_id");
+        
         int id_produto = 0;
-
-        if (request.getParameter("id_user") != null) {
-            id_user = Integer.parseInt(request.getParameter("id_user"));
-        }
 
         if (request.getParameter("id_produto") != null) {
             id_produto = Integer.parseInt(request.getParameter("id_produto"));

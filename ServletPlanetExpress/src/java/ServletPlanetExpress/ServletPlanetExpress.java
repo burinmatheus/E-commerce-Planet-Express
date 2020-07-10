@@ -4,6 +4,8 @@ package ServletPlanetExpress;
 import ejbconnection.EJBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,11 +25,12 @@ public class ServletPlanetExpress extends HttpServlet {
         try (PrintWriter saida = response.getWriter()) {
 
             try {
-                saida.print(EJBConnection.execMethod(request.getParameter("caminho"), request.getParameter("funcao"), request, response));
+                saida.print(EJBConnection.execMethod("EJBAuthModule/Auth", "encaminha", request, response));
             } catch (Exception ex) {
                 try (PrintWriter out = response.getWriter()) {
                     response.setStatus(500);
                     out.print("{\"erro\":\"Falha interna\"}");
+                    Logger.getLogger(ServletPlanetExpress.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

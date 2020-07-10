@@ -23,7 +23,7 @@ public class JWTGen {
                 .signWith(SignatureAlgorithm.HS512, chave);
 
         long nowMillis = System.currentTimeMillis();
-        long ttlMillis = 60000;
+        long ttlMillis = 7200000;
         long expMillis = nowMillis + ttlMillis;
         Date exp = new Date(expMillis);
 

@@ -30,18 +30,17 @@ import org.json.JSONObject;
 @Stateless
 public class Pedidos {
 
-    public String diminuiQTDE(HttpServletRequest request, HttpServletResponse response) {
+    public String diminuiQTDE(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
-            int id_usuario = 0;
+            JSONObject jsonA = new JSONObject(jsonAuth);
+
+            int id_usuario = jsonA.getInt("user_id");
+
             int produto = 0;
             boolean existe = false;
 
             if (request.getParameter("id_produto") != null) {
                 produto = Integer.parseInt(request.getParameter("id_produto"));
-            }
-
-            if (request.getParameter("id_user") != null) {
-                id_usuario = Integer.parseInt(request.getParameter("id_user"));
             }
 
             int id_pedido = new DAOpedidos().buscarPedidoA(id_usuario);
@@ -88,16 +87,13 @@ public class Pedidos {
 
     }
 
-    public String addProduto(HttpServletRequest request, HttpServletResponse response) {
+    public String addProduto(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            int id_usuario = 0;
+            int id_usuario = jsonA.getInt("user_id");
             int produto = 0;
             boolean existe = false;
-
-            if (request.getParameter("id_user") != null) {
-                id_usuario = Integer.parseInt(request.getParameter("id_user"));
-            }
 
             int id_pedido = new DAOpedidos().buscarPedidoA(id_usuario);
 
@@ -181,16 +177,13 @@ public class Pedidos {
         }
     }
 
-    public String removerProduto(HttpServletRequest request, HttpServletResponse response) {
+    public String removerProduto(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            int id_usuario = 0;
+            int id_usuario = jsonA.getInt("user_id");
             int produto = 0;
             boolean existe = false;
-
-            if (request.getParameter("id_user") != null) {
-                id_usuario = Integer.parseInt(request.getParameter("id_user"));
-            }
 
             int id_pedido = new DAOpedidos().buscarPedidoA(id_usuario);
 
@@ -232,10 +225,13 @@ public class Pedidos {
         }
     }
 
-    public String listarPedidosFinalizados(HttpServletRequest request, HttpServletResponse response) {
+    public String listarPedidosFinalizados(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoF(Integer.parseInt(request.getParameter("id_user")));
+            int id_usuario = jsonA.getInt("user_id");
+
+            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoF(id_usuario);
 
             JSONObject retorno = new JSONObject();
 
@@ -265,12 +261,15 @@ public class Pedidos {
 
     }
 
-    public String listarProdutosPedidoA(HttpServletRequest request, HttpServletResponse response) {
+    public String listarProdutosPedidoA(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            int idpedido = new DAOpedidos().buscarPedidoA(Integer.parseInt(request.getParameter("id_user")));
+            int id_usuario = jsonA.getInt("user_id");
 
-            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoProdutos(Integer.parseInt(request.getParameter("id_user")), idpedido);
+            int idpedido = new DAOpedidos().buscarPedidoA(id_usuario);
+
+            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoProdutos(id_usuario, idpedido);
 
             JSONObject retorno = new JSONObject();
 
@@ -306,10 +305,13 @@ public class Pedidos {
 
     }
 
-    public String listarProdutosPedidoF(HttpServletRequest request, HttpServletResponse response) {
+    public String listarProdutosPedidoF(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoProdutos(Integer.parseInt(request.getParameter("id_user")), Integer.parseInt(request.getParameter("id_pedido")));
+            int id_usuario = jsonA.getInt("user_id");
+
+            List<ModelPedidos> pedidos = new DAOpedidos().buscarPedidoProdutos(id_usuario, Integer.parseInt(request.getParameter("id_pedido")));
 
             JSONObject retorno = new JSONObject();
 
@@ -370,14 +372,11 @@ public class Pedidos {
 
     }
 
-    public String finalizaPedido(HttpServletRequest request, HttpServletResponse response) {
+    public String finalizaPedido(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
         try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
 
-            int id_usuario = 0;
-
-            if (request.getParameter("id_user") != null) {
-                id_usuario = Integer.parseInt(request.getParameter("id_user"));
-            }
+            int id_usuario = jsonA.getInt("user_id");
 
             int id_pedido = new DAOpedidos().buscarPedidoA(id_usuario);
 
@@ -402,7 +401,7 @@ public class Pedidos {
             p.setId_pedido(id_pedido);
             p.setData(datasql);
             p.setHora(horasql);
-            
+
             if (id_pedido != 0) {
                 new DAOpedidos().mudaStatusPedido(p);
                 response.setStatus(201);

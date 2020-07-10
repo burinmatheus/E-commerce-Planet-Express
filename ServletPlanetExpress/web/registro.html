@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <script src="https://kit.fontawesome.com/fe71cb5f78.js" crossorigin="anonymous"></script>
+
+    <!--FONTES GOOGLE-->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+    <link type="text/css" rel="stylesheet" href="styles/normalize.css">
+    <link type="text/css" rel="stylesheet" href="styles/loginRegistro.css">
+
+    <!--[if lt IE 9]>
+        <script src="scripts/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="scripts/prefixfree.min.js"></script>
+
+    <title>Planet Express</title>
+    <link rel="sortcut icon" href="img/logo.png" type="image/gif" />
+</head>
+
+<body>
+    <div id="corpo">
+        <div class="trocaImg" style="display: none;">
+            <p>Escolha um Avatar</p>
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Amy" class="Amy">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender" class="Bender">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Farnsworth" class="Farnsworth">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Fry" class="Fry">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Hermes" class="Hermes">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Leela" class="Leela">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Nibbler" class="Nibbler">
+            <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Zoidberg" class="Zoidberg">
+        </div>
+
+        <div id="formlogreg">
+            <div class="background">
+            </div>
+            <div id="formlogreg-externo">
+                <div id="formlogreg-interno">
+                    <div id="reg">
+                        <div id="regpt1">
+                            <div id="formReg-topo">
+                                <h1>Sign In</h1>
+                            </div>
+
+                            <div id="formReg-esq">
+                                <p>Para realizar ações no site, você precisa estar cadastrado.</p>
+                                <p>Preencha as informações ao lado para realizar o cadastro.</p>
+                                <p>Ao utilizar este site você concorda com os termos de uso e privacidade.</p>
+                                <a>Já possuo cadastro, entrar agora.</a>
+                            </div>
+                            <div id="formReg-dir">
+                                <form>
+                                    <input class="inlog" id="nome" placeholder="Insira seu Nome">
+                                    <input class="inlog" id="sobrenome" placeholder="Insira seu Sobrenome">
+                                    <input class="inlog" id="email" placeholder="Insira seu melhor Email">
+                                    <input class="btn inlog" type="button" value="Continuar">
+                                </form>
+                            </div>
+                        </div>
+                        <div id="regpt2" style="display: none;">
+                            <div id="formReg-esq">
+                                <div class="userRegImg">
+                                    <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
+                                </div>
+                                <div id="informacoesP">
+                                    <input class="inlog" id="telefone" type="number" placeholder="Insira seu Telefone">
+                                    <input class="inlog" id="cpf" type="number" placeholder="Insira seu CPF">
+                                    <input class="inlog" id="rg" type="number" placeholder="Insira seu RG">
+                                </div>
+                            </div>
+                            <div id="formReg-dir">
+                                <h1>Endereço</h1>
+                                <div id="informacoesE">
+                                    <input class="inlog" id="cep" type="number" placeholder="Insira seu CEP">
+                                    <select class="inlog" id="estado">
+                                                    <option value="Estado" selected>Selecione seu Estado</option>
+                                                </select>
+                                    <input class="inlog" id="cidade" type="text" placeholder="Insira sua Cidade">
+                                    <input class="inlog" id="bairro" type="text" placeholder="Insira seu Bairro">
+                                    <input class="inlog" id="rua" type="text" placeholder="Insira sua Rua">
+                                    <input class="inlog" id="numero" type="number" placeholder="Insira o Número da casa">
+                                    <input class="btn inlog" type="button" value="Confirmar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
