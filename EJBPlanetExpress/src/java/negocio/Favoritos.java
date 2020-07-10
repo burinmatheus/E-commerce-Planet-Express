@@ -1,9 +1,10 @@
 package negocio;
 
 import dao.DAOfavoritos;
-import dao.DAOprodutos;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,12 +32,19 @@ public class Favoritos {
             id_produto = Integer.parseInt(request.getParameter("id_produto"));
         }
         try {
-            new DAOfavoritos().adicionarFavorito(id_user, id_produto);
-            response.setStatus(201);
-            return ("{\"alerta\":\"Produto adicionado aos Favoritos!\"}");
+            if (new DAOfavoritos().verificafavorito(id_produto, id_user)) {
+                new DAOfavoritos().adicionarFavorito(id_user, id_produto);
+                response.setStatus(201);
+                return ("{\"alerta\":\"Produto adicionado aos Favoritos!\"}");
+
+            } else {
+                response.setStatus(400);
+                return ("{\"erro\":\"Este produto já está nos seus Favoritos!\"}");
+            }
         } catch (SQLException ex) {
+            Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(400);
-            return ("{\"erro\":\"Não foi possível adicionar o produto aos Favoritos!\"}");
+            return ("{\"erro\":\"Não foi possível realizar esta ação!\"}");
         }
 
     }
@@ -75,7 +83,7 @@ public class Favoritos {
         }
 
     }
-    
+
     public String removerFavoritos(HttpServletRequest request, HttpServletResponse response) {
 
         int id_user = 0;

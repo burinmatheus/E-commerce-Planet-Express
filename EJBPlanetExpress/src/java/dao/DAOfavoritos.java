@@ -7,10 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import model.ModelPedidos;
 import model.ModelProdutos;
-import model.ModelUser;
 
 /**
  *
@@ -22,6 +20,31 @@ public class DAOfavoritos {
 
     public DAOfavoritos() {
         con = DatabaseConnection.getInstance().getConnection();
+    }
+    
+    public boolean verificafavorito( int produto, int user) throws SQLException {
+        String sql = "SELECT 1 " +
+                        "FROM rdb$database " +
+                            "WHERE EXISTS(SELECT * FROM favorito WHERE USUARIO_ID = ? AND PRODUTO_ID = ?) ";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setInt(1, user);
+        ps.setInt(2, produto);
+        ResultSet rs = ps.executeQuery();
+
+        boolean executar = true;
+        while (rs.next()) {
+            if (rs.getInt("CONSTANT") != 0) {
+                executar = false;
+            }
+        }
+
+        rs.close();
+        ps.close();
+
+        return executar;
+
     }
 
     public void adicionarFavorito(int id_user, int id_produto) throws SQLException {
