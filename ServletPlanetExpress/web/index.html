@@ -12,6 +12,9 @@
 
 
     <link type="text/css" rel="stylesheet" href="styles/normalize.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css">
+    <link type="text/css" rel="stylesheet" href="styles/loginRegistro.css">
     <link type="text/css" rel="stylesheet" href="styles/style.css">
 
     <!--[if lt IE 9]>
@@ -19,23 +22,104 @@
     <![endif]-->
 
     <script src="scripts/prefixfree.min.js"></script>
-    <script src="scripts/main.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
     <title>Planet Express</title>
     <link rel="sortcut icon" href="img/logo.png" type="image/gif" />
 </head>
 
 <body>
+    <div id="corpo" style="display: none;">
+        <div id="formlogreg">
+            <div class="background">
+            </div>
+            <div id="formlogreg-externo">
+                <div id="formlogreg-interno">
+                    <div class="lgn" style="display: none;">
+                        <div id="formlogreg-esq">
+                            <h1>Login</h1>
+                            <p>Para realizar ações no site, você precisa estar logado. Preencha as informações ao lado para realigar o login ou crie uma conta.</p>
+                            <p>Ao utilizar este site você concorda com os termos de uso e privacidade.</p>
+                            <a class="abir-cadastro">Ainda não possuo cadastro, realizar agora.</a>
+                        </div>
+                        <div id="formlogreg-dir">
+                            <div id="user-ft">
+                                <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
+                            </div>
+                            <form>
+                                <input class="inlog loginadd" placeholder="Insira seu Email ou CPF">
+                                <input class="inlog senha" placeholder="Insira sua Senha">
+                                <a>Esqueci a senha</a>
+                                <input class="btn inlog logar" type="button" value="Entrar">
+                            </form>
+                        </div>
+                    </div>
+                    <div id="reg" style="display: none;">
+                        <div id="regpt1" style="display: none;">
+                            <div id="formReg-topo">
+                                <h1>Sign In</h1>
+                            </div>
+
+                            <div id="formReg-esq">
+                                <p>Para realizar ações no site, você precisa estar cadastrado.</p>
+                                <p>Preencha as informações ao lado para realizar o cadastro.</p>
+                                <p>Ao utilizar este site você concorda com os termos de uso e privacidade.</p>
+                                <a>Já possuo cadastro, entrar agora.</a>
+                            </div>
+                            <div id="formReg-dir">
+                                <form>
+                                    <input class="inlog" id="nome" placeholder="Insira seu Nome">
+                                    <input class="inlog" id="sobrenome" placeholder="Insira seu Sobrenome">
+                                    <input class="inlog" id="email" placeholder="Insira seu melhor Email">
+                                    <input class="btn inlog" type="button" value="Continuar">
+                                </form>
+                            </div>
+                        </div>
+                        <div id="regpt2" style="display: none;">
+                            <div id="formReg-esq">
+                                <div class="userRegImg">
+                                    <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
+                                </div>
+                                <div id="informacoesP">
+                                    <input class="inlog" id="telefone" type="number" placeholder="Insira seu Telefone">
+                                    <input class="inlog" id="cpf" type="number" placeholder="Insira seu CPF">
+                                    <input class="inlog" id="rg" type="number" placeholder="Insira seu RG">
+                                </div>
+                            </div>
+                            <div id="formReg-dir">
+                                <h1>Endereço</h1>
+                                <div id="informacoesE">
+                                    <input class="inlog" id="cep" type="number" placeholder="Insira seu CEP">
+                                    <select class="inlog" id="estado">
+                                                    <option value="Estado" selected>Selecione seu Estado</option>
+                                                </select>
+                                    <input class="inlog" id="cidade" type="text" placeholder="Insira sua Cidade">
+                                    <input class="inlog" id="bairro" type="text" placeholder="Insira seu Bairro">
+                                    <input class="inlog" id="rua" type="text" placeholder="Insira sua Rua">
+                                    <input class="inlog" id="numero" type="number" placeholder="Insira o Número da casa">
+                                    <input class="btn inlog" type="button" value="Confirmar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="content">
         <header class="menu">
-            <a class="menu-icon">
+            <a class="menu-icon" onclick="carregaSegmentos();">
                 <div></div>
                 <div></div>
                 <div></div>
             </a>
-            <img class="logo" src="img/LogoCompleto.png">
+            <img class="logo" src="img/LogoCompleto.png" onclick="trocatela(this);">
             <span>
-                <img class="lupa" src="img/Lupa.svg">
+                <input type="text" id="campopesquisa">
+                <img class="lupa" src="img/Lupa.svg" onclick="trocatela(this);">
                 <img class="carrinho" src="img/Carrinho.svg">
                 <img class="user" src="img/User.svg">
             </span>
@@ -48,10 +132,44 @@
         </header>
         <div id="barraLateral">
         </div>
+
+        <section id="inicial">
+            <div class="carousel" id="carousel">
+                <div><img src="img/banner/Banner1.png" alt="banner" /></div>
+                <div><img src="img/banner/Banner2.png" alt="banner" /></div>
+                <div><img src="img/banner/Banner3.png" alt="banner" /></div>
+            </div>
+            <div class="boxprodutos" id="boxtodosprodutos">
+            </div>
+        </section>
+
+        <section id="produtoslistagem">
+            <div class="boxprodutos" id="boxlistagemprodutos">
+            </div>
+        </section>
+
+        <section id="produtodetalhes">
+            <div class="boxprodutodetalhes" id="boxprodutodetalhes">
+            </div>
+        </section>
+
+
+
     </div>
 
 
 
 </body>
+<script>
+    //CARROUSSEL
+    $('.carousel').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: false,
+    });
+</script>
+<script type="text/javascript" src="scripts/main.js"></script>
 
 </html>

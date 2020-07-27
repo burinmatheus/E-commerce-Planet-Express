@@ -113,6 +113,7 @@ public class Produtos {
                 json.put("marca", produto.getMarca());
                 json.put("valor", produto.getValor());
                 json.put("desconto", produto.getDesconto());
+                json.put("img", produto.getImg());
 
                 arrayRetorno.put(json);
             }
@@ -146,6 +147,7 @@ public class Produtos {
                 json.put("marca", produto.getMarca());
                 json.put("valor", produto.getValor());
                 json.put("desconto", produto.getDesconto());
+                json.put("img", produto.getImg());
 
                 arrayRetorno.put(json);
             }
@@ -177,6 +179,7 @@ public class Produtos {
                 json.put("marca", produto.getMarca());
                 json.put("valor", produto.getValor());
                 json.put("desconto", produto.getDesconto());
+                json.put("img", produto.getImg());
 
                 arrayRetorno.put(json);
             }

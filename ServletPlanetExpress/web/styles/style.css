@@ -15,14 +15,18 @@ body {
 /*BARRA SUPERIOR*/
 
 #content header {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
+    max-width: 90em;
+    min-width: 20em;
+    margin: 0 auto;
     background: #36538B;
     height: 4em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.18);
     box-shadow: 0 0 8px 0px #00000069;
+    z-index: 200;
 }
 
 #content header a.menu-icon {
@@ -96,4 +100,115 @@ body {
 #content header span.popup a:last-of-type {
     border: none;
     padding: 0;
+}
+
+
+/*BARRA LATERAL*/
+
+#content #barraLateral {
+    color: white;
+    background-color: #476AAF;
+    width: 21em;
+}
+
+#content #barraLateral .segmentobox {
+    margin-bottom: -2px;
+}
+
+#content #barraLateral .segmentobox img.imagemSegmento {
+    width: 2.3em;
+    background-color: #36538B;
+    padding: .89em;
+}
+
+#content #barraLateral .segmentobox p.nomeSegmento {
+    vertical-align: bottom;
+    padding: 0 0 1em 1em;
+    margin: 0;
+    cursor: pointer;
+}
+
+#content #barraLateral .segmentobox i {
+    padding: 1.2em 0 0 1em;
+    vertical-align: top;
+}
+
+#content #barraLateral .segmentobox .categoriabox p {
+    display: block;
+    cursor: pointer;
+    font-size: .8em;
+}
+
+#content #barraLateral .segmentobox .categoriabox {
+    height: 0;
+    overflow: hidden;
+    transition: 1s;
+}
+
+#content #barraLateral .segmentobox:hover .categoriabox {
+    height: max-content;
+    padding-left: 6em;
+}
+
+#content #barraLateral {
+    width: 4em;
+    overflow: hidden;
+    float: left;
+    position: absolute;
+    z-index: 199;
+}
+
+#content #barraLateral p.nomeSegmento,
+#content #barraLateral i {
+    display: none;
+    width: 0;
+    overflow: hidden;
+}
+
+#content #barraLateral:hover .segmentobox p.nomeSegmento,
+#content #barraLateral:hover .segmentobox i {
+    display: inline-block;
+    width: max-content;
+}
+
+#content #barraLateral:hover {
+    width: 21em;
+}
+
+
+/*INICIAL*/
+
+#content .carousel {
+    z-index: -1;
+}
+
+#content .boxprodutos {
+    position: relative;
+    top: -15em;
+    left: 5%;
+    width: 90%;
+}
+
+#content .boxprodutos .produtobox {
+    background: white;
+    display: inline-block;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 12px;
+    width: calc(85% / 3);
+    height: 24em;
+    vertical-align: bottom;
+}
+
+#content .boxprodutos .produtobox .imagemProduto {
+    display: block;
+    margin: 0 auto;
+    height: 39%;
+}
+
+
+/*LISTAGEM PRODUTOS*/
+
+#content #produtoslistagem .boxprodutos {
+    top: 0;
 }
