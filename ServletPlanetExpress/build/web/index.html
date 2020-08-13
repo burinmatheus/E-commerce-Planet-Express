@@ -111,7 +111,7 @@
     </div>
     <div id="content">
         <header class="menu">
-            <a class="menu-icon" onclick="carregaSegmentos();">
+            <a class="menu-icon" onclick="opencatgorias();">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -119,18 +119,18 @@
             <img class="logo" src="img/LogoCompleto.png" onclick="trocatela(this);">
             <span>
                 <input type="text" id="campopesquisa">
-                <img class="lupa" src="img/Lupa.svg" onclick="trocatela(this);">
+                <img class="lupa" src="img/Lupa.svg" onclick="opensearch(this);">
                 <img class="carrinho" src="img/Carrinho.svg">
-                <img class="user" src="img/User.svg">
+                <img class="user" src="img/User.svg" onclick="openpopup();">
             </span>
             <span class="popup">
-                <a>Meus Dados</a>
-                <a>Favoritos</a>
-                <a>Comprados</a>
+                <a class="meusdados" onclick="trocatela(this);">Meus Dados</a>
+                <a class="favoritos" onclick="trocatela(this);">Favoritos</a>
+                <a class="comprados" onclick="trocatela(this);">Comprados</a>
                 <a>Sair</a>
             </span>
         </header>
-        <div id="barraLateral">
+        <div id="barralateral">
         </div>
 
         <section id="inicial">
@@ -153,6 +153,12 @@
             </div>
         </section>
 
+        <section id="produtofavoritos">
+            <div class="boxprodutofavoritos" id="boxprodutofavoritos">
+            </div>
+        </section>
+
+
 
 
     </div>
@@ -171,5 +177,7 @@
     });
 </script>
 <script type="text/javascript" src="scripts/main.js"></script>
+<script type="text/javascript" src="scripts/events.js"></script>
+<script type="text/javascript" src="scripts/functions.js"></script>
 
 </html>

@@ -74,6 +74,10 @@ body {
     margin-left: .2em;
 }
 
+#content header span input#campopesquisa {
+    display: none;
+}
+
 #content header span img.lupa {
     width: 1.23em;
 }
@@ -97,6 +101,10 @@ body {
     padding: 0 2em .5em;
 }
 
+#content header span.popup a:hover {
+    color: black;
+}
+
 #content header span.popup a:last-of-type {
     border: none;
     padding: 0;
@@ -105,52 +113,52 @@ body {
 
 /*BARRA LATERAL*/
 
-#content #barraLateral {
+#content #barralateral {
     color: white;
     background-color: #476AAF;
     width: 21em;
 }
 
-#content #barraLateral .segmentobox {
+#content #barralateral .segmentobox {
     margin-bottom: -2px;
 }
 
-#content #barraLateral .segmentobox img.imagemSegmento {
+#content #barralateral .segmentobox img.imagemSegmento {
     width: 2.3em;
     background-color: #36538B;
     padding: .89em;
 }
 
-#content #barraLateral .segmentobox p.nomeSegmento {
+#content #barralateral .segmentobox p.nomeSegmento {
     vertical-align: bottom;
     padding: 0 0 1em 1em;
     margin: 0;
     cursor: pointer;
 }
 
-#content #barraLateral .segmentobox i {
+#content #barralateral .segmentobox i {
     padding: 1.2em 0 0 1em;
     vertical-align: top;
 }
 
-#content #barraLateral .segmentobox .categoriabox p {
+#content #barralateral .segmentobox .categoriabox p {
     display: block;
     cursor: pointer;
     font-size: .8em;
 }
 
-#content #barraLateral .segmentobox .categoriabox {
+#content #barralateral .segmentobox .categoriabox {
     height: 0;
     overflow: hidden;
     transition: 1s;
 }
 
-#content #barraLateral .segmentobox:hover .categoriabox {
+#content #barralateral .segmentobox:hover .categoriabox {
     height: max-content;
     padding-left: 6em;
 }
 
-#content #barraLateral {
+#content #barralateral {
     width: 4em;
     overflow: hidden;
     float: left;
@@ -158,20 +166,20 @@ body {
     z-index: 199;
 }
 
-#content #barraLateral p.nomeSegmento,
-#content #barraLateral i {
+#content #barralateral p.nomeSegmento,
+#content #barralateral i {
     display: none;
     width: 0;
     overflow: hidden;
 }
 
-#content #barraLateral:hover .segmentobox p.nomeSegmento,
-#content #barraLateral:hover .segmentobox i {
+#content #barralateral:hover .segmentobox p.nomeSegmento,
+#content #barralateral:hover .segmentobox i {
     display: inline-block;
     width: max-content;
 }
 
-#content #barraLateral:hover {
+#content #barralateral:hover {
     width: 21em;
 }
 

@@ -104,7 +104,7 @@ public class User {
             ModelUser retornoinfos = new DAOuser().buscarUser(logininfo);
 
             JSONObject json = new JSONObject();
-
+            
             json.put("id", retornoinfos.getId());
             json.put("nome", retornoinfos.getNome());
             json.put("img", retornoinfos.getImg());

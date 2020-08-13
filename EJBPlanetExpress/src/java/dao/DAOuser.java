@@ -10,10 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.ModelEndereco;
 import model.ModelUser;
+import org.kohsuke.rngom.parse.Parseable;
 
 /**
  *
@@ -28,18 +27,20 @@ public class DAOuser {
     }
 
     public ModelUser buscarUser(String login) throws SQLException {
+        ModelUser user = new ModelUser();
+
         String sql = "SELECT ID_USUARIO, NOME, IMG "
                 + "FROM USUARIOS "
-                + "WHERE (UPPER(EMAIL) = UPPER(" + login + ")) OR (UPPER(CPF) = UPPER(" + login + ")) ; ";
+                + "WHERE CPF = "+login+" ";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        ModelUser user = new ModelUser();
-        user.setId(rs.getInt("ID_USUARIO"));
-        user.setImg(rs.getString("IMG"));
-        user.setNome(rs.getString("NOME"));
-
+        if (rs.next()) {
+            user.setId(rs.getInt("ID_USUARIO"));
+            user.setImg(rs.getString("IMG"));
+            user.setNome(rs.getString("NOME"));
+        }
         rs.close();
         ps.close();
 
@@ -87,15 +88,15 @@ public class DAOuser {
         ps.close();
         return id;
     }
-    
-    public int buscaEndereco(int id, String cpf) throws SQLException{
-        String sql1 = "SELECT ENDERECO_ID " +
-                        "FROM usuarios " +
-                            "WHERE CPF = "+cpf+" AND ID_USUARIO = "+id+" ;";
-        
+
+    public int buscaEndereco(int id, String cpf) throws SQLException {
+        String sql1 = "SELECT ENDERECO_ID "
+                + "FROM usuarios "
+                + "WHERE CPF = " + cpf + " AND ID_USUARIO = " + id + " ;";
+
         PreparedStatement pso = con.prepareStatement(sql1);
         ResultSet rs = pso.executeQuery();
-        
+
         int id_endereco = 0;
 
         if (rs.next()) {
@@ -103,7 +104,7 @@ public class DAOuser {
         }
         rs.close();
         pso.close();
-        
+
         return id_endereco;
     }
 
@@ -169,12 +170,12 @@ public class DAOuser {
     }
 
     public void modificaEndereco(ModelEndereco end, int id, String cpf) throws SQLException {
-        
+
         int id_endereco = buscaEndereco(id, cpf);
-        
-        String sql = "UPDATE ENDERECOS " +
-                            "SET ESTADO_ID = ?, CIDADE = ?, CEP = ?, BAIRRO = ?, RUA = ?, NUMERO = ? " +
-                                "WHERE ID_ENDERECO = ? ";
+
+        String sql = "UPDATE ENDERECOS "
+                + "SET ESTADO_ID = ?, CIDADE = ?, CEP = ?, BAIRRO = ?, RUA = ?, NUMERO = ? "
+                + "WHERE ID_ENDERECO = ? ";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, end.getEstado());
@@ -186,6 +187,6 @@ public class DAOuser {
         ps.setInt(7, id_endereco);
         ps.execute();
         ps.close();
-        
+
     }
 }

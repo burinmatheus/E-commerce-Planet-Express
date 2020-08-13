@@ -9,6 +9,10 @@ function requisicao(url, corpo, callbackOk, callbackErro) {
     http.open("POST", url, true);
     http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
+    if (window.localStorage.getItem('Authorization') != null) {
+        http.setRequestHeader("Authorization", window.localStorage.getItem('Authorization'));
+    }
+
     http.addEventListener('load', function() {
         if (http.status < 400)
             callbackOk(http.response);
@@ -35,8 +39,8 @@ function alerterror(resp) {
 function processaSegmentos(resp) {
     let respostas = JSON.parse(resp).segmentos;
 
-    let barraLateral = document.getElementById("barraLateral");
-    barraLateral.innerHTML = ' ';
+    let barralateral = document.getElementById("barralateral");
+    barralateral.innerHTML = ' ';
 
     respostas.forEach(resposta => {
         let segmentobox = document.createElement('div');
@@ -74,7 +78,7 @@ function processaSegmentos(resp) {
         segmentobox.appendChild(p);
         segmentobox.appendChild(icon);
         segmentobox.appendChild(categoriabox);
-        barraLateral.appendChild(segmentobox);
+        barralateral.appendChild(segmentobox);
 
     });
 }
@@ -99,7 +103,7 @@ function processalistarProduto(resp) {
     respostas = respostas.produtos;
     respostaimgs = respostas.imagens;
 
-    let produtodetalhes = document.getElementById('produtodetalhes');
+    let produtodetalhes = document.getElementById('boxprodutodetalhes');
     produtodetalhes.innerHTML = ' ';
 
     //IMGS
@@ -159,8 +163,6 @@ function processalistarProdutos(resp) {
         marca.innerHTML = resposta.marca;
         produtobox.appendChild(marca);
 
-
-
         if (resposta.desconto != 0) {
             let valorA = document.createElement('p');
             valorA.classList.add('produtovalorA');
@@ -184,10 +186,25 @@ function processalistarProdutos(resp) {
             produtobox.appendChild(valorA);
         }
 
+        if (tela == 'listarFavoritos') {
+            let btnfav = document.createElement('div');
+            btnfav.classList.add('btnremoverFav');
+            btnfav.innerHTML = "Remover dos Favoritos"
+            btnfav.setAttribute('onclick', 'removerFavoritos(this)');
+            produtobox.appendChild(btnfav);
+        } else {
+            let btnfav = document.createElement('div');
+            btnfav.classList.add('btnaddFav');
+            btnfav.innerHTML = "Adicionar aos Favoritos"
+            btnfav.setAttribute('onclick', 'adicionarFavoritos(this)');
+            produtobox.appendChild(btnfav);
+        }
+
         let btn = document.createElement('div');
         btn.classList.add('btnaddCarrinho');
         btn.innerHTML = "Adicionar ao Carrinho"
         btn.setAttribute('onclick', 'addCarrinho(this)');
+
 
         produtobox.appendChild(btn);
         boxprodutos.appendChild(produtobox);
@@ -267,18 +284,27 @@ function listarProduto() {
     let caminho = 'EJBPlanetExpress/Produtos';
     funE = " listarProduto";
 
+    let corpo = `funcao=${funcao}&caminho=${caminho}&id=${id}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistarProduto, alerterror);
+}
+
+function listarFavoritos() {
+    let funcao = 'listarFavoritos';
+    let caminho = 'EJBPlanetExpress/Favoritos';
+    funE = "listarProduto";
+
     if (pg == 1) {
-        let boxprodutos = document.getElementById("produtodetalhes");
+        let boxprodutos = document.getElementById("boxprodutofavoritos");
 
         boxprodutos.innerHTML = '  ';
 
     }
 
-    let corpo = `funcao=${funcao}&caminho=${caminho}&id=${id}`;
-    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistarProduto, alerterror);
+    let corpo = `funcao=${funcao}&caminho=${caminho}&pg=${pg}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistarProdutos, alerterror);
 }
 
-//TROCA TELA
+//NAVIGATOR
 function trocatela(elem) {
     let identificacao = elem.classList[0];
 
@@ -321,6 +347,17 @@ function trocatela(elem) {
         id = document.getElementById('campopesquisa').value;
         listarProdutosPesquisa();
 
+    } else if (identificacao == 'meusdados') {
+
+    } else if (identificacao == 'favoritos') {
+        trocadisplay('boxprodutofavoritos');
+        pg = 1;
+        tela = 'listarFavoritos';
+        box = 'boxprodutofavoritos';
+        listarFavoritos();
+
+    } else if (identificacao == 'comprados') {
+
     } else if (identificacao == 'carrinho') {
 
     }
@@ -352,8 +389,13 @@ function trocadisplay(a) {
     } else {
         document.getElementById('produtodetalhes').style.display = 'none';
     }
-}
 
+    if (a == 'boxprodutofavoritos') {
+        document.getElementById('produtofavoritos').style.display = 'block';
+    } else {
+        document.getElementById('produtofavoritos').style.display = 'none';
+    }
+}
 
 
 //CARREGAMENTO INFINITO
