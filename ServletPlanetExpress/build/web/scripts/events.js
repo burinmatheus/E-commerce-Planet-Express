@@ -44,16 +44,16 @@ function opencatgorias() {
 }
 
 function openprodutoshistorico(elem) {
+    elem = elem.parentNode;
 
-    if (elem.childNodes[3].classList[2] == 'aberto') {
-        elem.childNodes[3].classList.remove('fa-sort-down');
-        elem.childNodes[3].classList.add('fa-sort-up');
-        elem.removeChild(elem.childNodes[4]);
-    } else {
+    if (elem.childNodes[4]) {
         elem.childNodes[3].classList.remove('fa-sort-up');
         elem.childNodes[3].classList.add('fa-sort-down');
-        elem.childNodes[3].classList.add('aberto');
-        listaProdutosHistorico(elem.id);
+        elem.removeChild(elem.childNodes[4]);
+    } else {
+        elem.childNodes[3].classList.remove('fa-sort-down');
+        elem.childNodes[3].classList.add('fa-sort-up');
+        listarProdutosComprados(elem);
     }
 
 }

@@ -296,8 +296,8 @@ function processalistaComprados(resp) {
     respostas.forEach(resposta => {
         let boxcompradoresumo = document.createElement('div');
         boxcompradoresumo.classList.add('boxcompradoresumo');
+        boxcompradoresumo.classList.add(resposta.id);
         boxcompradoresumo.setAttribute('id', resposta.id);
-        boxcompradoresumo.setAttribute('onclick', 'openprodutoshistorico(this)');
 
         let data = document.createElement('p');
         data.classList.add('datacompra');
@@ -313,6 +313,8 @@ function processalistaComprados(resp) {
 
         let i = document.createElement('i');
         i.setAttribute('class', 'fas fa-sort-down');
+        i.setAttribute('onclick', 'openprodutoshistorico(this)');
+
 
         boxcompradoresumo.appendChild(data);
         boxcompradoresumo.appendChild(hora);
@@ -323,6 +325,50 @@ function processalistaComprados(resp) {
     });
 }
 
+function processalistaProdutosComprados(resp) {
+    let respostas = JSON.parse(resp);
+    respostas = respostas.produtos;
+
+    let boxprodutos = document.createElement('div');
+    boxprodutos.setAttribute('class', 'listadeprodutos');
+
+    respostas.forEach(resposta => {
+        let produtolistado = document.createElement('div');
+        produtolistado.classList.add('produtolistado');
+        produtolistado.classList.add(resposta.id);
+
+        let imagem = document.createElement('img');
+        imagem.classList.add('imagemProduto');
+        imagem.src = "/ServletPlanetExpress/retornaimagem?tipo=produtos&cod=" + resposta.img;
+
+        let nome = document.createElement('h2');
+        nome.setAttribute('class', 'nomeproduto');
+        nome.innerText = resposta.nome;
+
+        let marca = document.createElement('p');
+        marca.setAttribute('class', 'marcaproduto');
+        marca.innerText = resposta.marca;
+
+        let qtde = document.createElement('p');
+        qtde.setAttribute('class', 'qtdeproduto');
+        qtde.innerText = resposta.qtde;
+
+        let btn = document.createElement('div');
+        btn.classList.add('verproduto');
+        btn.innerHTML = "Ver Produto"
+        btn.setAttribute('onclick', 'trocatela(this);');
+
+        produtolistado.appendChild(imagem);
+        produtolistado.appendChild(nome);
+        produtolistado.appendChild(marca);
+        produtolistado.appendChild(qtde);
+        produtolistado.appendChild(btn);
+        boxprodutos.appendChild(produtolistado);
+
+    });
+
+    pg.appendChild(boxprodutos);
+}
 
 //CONTROLLER
 
@@ -431,6 +477,16 @@ function listarComprados() {
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaComprados, alerterror);
 }
 
+function listarProdutosComprados(elem) {
+    let funcao = 'listarProdutosPedidoF';
+    let caminho = 'EJBPlanetExpress/Pedidos';
+    funE = "listarProdutosPedidoF";
+    pg = elem;
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}&id_pedido=${elem.id}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaProdutosComprados, alerterror);
+}
+
 //NAVIGATOR
 function trocatela(elem) {
     let identificacao = elem.classList[0];
@@ -449,6 +505,14 @@ function trocatela(elem) {
         tela = 'listarProduto';
         box = 'produtodetalhes';
         id = elem.parentNode.id;
+        listarProduto();
+
+    } else if (identificacao == 'verproduto') {
+        trocadisplay('produtodetalhes');
+        pg = 1;
+        tela = 'listarProduto';
+        box = 'produtodetalhes';
+        id = elem.parentNode.classList[1];
         listarProduto();
 
     } else if (identificacao == 'logo') {
