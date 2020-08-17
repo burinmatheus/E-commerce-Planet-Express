@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/Produtos.java</file>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/dao/DAOuser.java</file>
+            <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/Pedidos.java</file>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/dao/DAOprodutos.java</file>
             <file>file:/C:/ecommerce/EJBPlanetExpress/src/java/negocio/User.java</file>
         </group>

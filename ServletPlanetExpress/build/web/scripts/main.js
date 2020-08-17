@@ -27,7 +27,7 @@ function requisicao(url, corpo, callbackOk, callbackErro) {
 }
 
 function alertresposta(resp) {
-    console.log(JSON.parse(resp).data);
+    alert(JSON.parse(resp).alerta);
 }
 
 function alerterror(resp) {
@@ -91,12 +91,8 @@ function carregaSegmentos() {
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processaSegmentos, alerterror);
 }
 
-//IMAGENS
-function trocaimg(elem) {
-    elem.parentNode.parentNode.children[1].children[0].src = elem.src;
-}
 
-//PRODUTOS
+//PROCESSA DADOS RECEBIDOS
 
 function processalistarProduto(resp) {
     let respostas = JSON.parse(resp);
@@ -105,6 +101,7 @@ function processalistarProduto(resp) {
 
     let produtodetalhes = document.getElementById('boxprodutodetalhes');
     produtodetalhes.innerHTML = ' ';
+    produtodetalhes.setAttribute('class', respostas.id);
 
     //IMGS
     let boximgs = document.createElement('div');
@@ -127,11 +124,80 @@ function processalistarProduto(resp) {
         divminiaturas.appendChild(imgs);
     });
 
+
     boximgs.appendChild(divminiaturas);
     divimg.appendChild(imgs);
     boximgs.appendChild(divimg);
     produtodetalhes.appendChild(boximgs);
 
+    //DETALHES
+    let boxdetalhes = document.createElement('div');
+    boxdetalhes.setAttribute('id', respostas.id);
+    boxdetalhes.setAttribute('class', 'boxdetalhes');
+
+    let nomeproduto = document.createElement('h1');
+    nomeproduto.setAttribute('id', 'nomeproduto');
+    nomeproduto.innerText = respostas.nome;
+
+    let marcaproduto = document.createElement('p');
+    marcaproduto.setAttribute('id', 'marcaproduto');
+    marcaproduto.innerText = respostas.marca;
+
+    boxdetalhes.appendChild(nomeproduto);
+    boxdetalhes.appendChild(marcaproduto);
+
+    if (respostas.desconto != 0) {
+        let valorA = document.createElement('p');
+        valorA.classList.add('produtovalorA');
+        valorA.innerHTML = "R$: " + respostas.valor;
+        boxdetalhes.appendChild(valorA);
+
+        let valorB = document.createElement('p');
+        valorB.classList.add('produtovalorB');
+        valorB.innerHTML = "Por R$: " + (respostas.valor - (respostas.valor * (respostas.desconto / 100))).toFixed(2);
+        boxdetalhes.appendChild(valorB);
+
+        let descontos = document.createElement('span');
+        descontos.classList.add('produtodesconto');
+        descontos.innerHTML = respostas.desconto + "% de desconto";
+
+        boxdetalhes.appendChild(descontos);
+    } else {
+        let valorA = document.createElement('p');
+        valorA.classList.add('produtovalor');
+        valorA.innerHTML = "R$: " + respostas.valor;
+        boxdetalhes.appendChild(valorA);
+    }
+
+    let btnfav = document.createElement('div');
+    btnfav.classList.add('btnaddFav');
+    btnfav.innerHTML = "Adicionar aos Favoritos"
+    btnfav.setAttribute('onclick', 'adicionarFavoritos(this)');
+    boxdetalhes.appendChild(btnfav);
+
+    let btn = document.createElement('div');
+    btn.classList.add('btnaddCarrinho');
+    btn.innerHTML = "Adicionar ao Carrinho"
+    btn.setAttribute('onclick', 'addCarrinho(this)');
+    boxdetalhes.appendChild(btn);
+
+    produtodetalhes.appendChild(boxdetalhes);
+
+    //DESCRIÇÃO
+    let boxdescricao = document.createElement('div');
+    boxdescricao.setAttribute('id', 'boxdescricao');
+
+    let titulodescricao = document.createElement('h2');
+    titulodescricao.setAttribute('id', 'titulodescricao');
+    titulodescricao.innerText = 'DESCRIÇÃO:';
+
+    let descricao = document.createElement('p');
+    descricao.setAttribute('id', 'descricao');
+    descricao.innerText = respostas.descricao;
+
+    boxdescricao.appendChild(titulodescricao);
+    boxdescricao.appendChild(descricao);
+    produtodetalhes.appendChild(boxdescricao);
 
 }
 
@@ -209,6 +275,51 @@ function processalistarProdutos(resp) {
         produtobox.appendChild(btn);
         boxprodutos.appendChild(produtobox);
 
+    });
+}
+
+function processalistaComprados(resp) {
+    let respostas = JSON.parse(resp);
+    respostas = respostas.pedidos;
+
+    let boxprodutos = document.getElementById('boxprodutocomprados');
+
+    if (pg == 0) {
+        let titulopag = document.createElement('h1');
+        titulopag.setAttribute('class', 'titulopag');
+        boxprodutos.appendChild(titulopag);
+    }
+
+
+    pg = pg + 1;
+
+    respostas.forEach(resposta => {
+        let boxcompradoresumo = document.createElement('div');
+        boxcompradoresumo.classList.add('boxcompradoresumo');
+        boxcompradoresumo.setAttribute('id', resposta.id);
+        boxcompradoresumo.setAttribute('onclick', 'openprodutoshistorico(this)');
+
+        let data = document.createElement('p');
+        data.classList.add('datacompra');
+        data.innerText = resposta.data;
+
+        let hora = document.createElement('p');
+        hora.classList.add('horacompra');
+        hora.innerText = resposta.hora;
+
+        let valor = document.createElement('p');
+        valor.classList.add('valorcompra');
+        valor.innerText = resposta.valor;
+
+        let i = document.createElement('i');
+        i.setAttribute('class', 'fas fa-sort-down');
+
+        boxcompradoresumo.appendChild(data);
+        boxcompradoresumo.appendChild(hora);
+        boxcompradoresumo.appendChild(valor);
+        boxcompradoresumo.appendChild(i);
+
+        boxprodutos.appendChild(boxcompradoresumo);
     });
 }
 
@@ -291,7 +402,7 @@ function listarProduto() {
 function listarFavoritos() {
     let funcao = 'listarFavoritos';
     let caminho = 'EJBPlanetExpress/Favoritos';
-    funE = "listarProduto";
+    funE = "listarFavoritos";
 
     if (pg == 1) {
         let boxprodutos = document.getElementById("boxprodutofavoritos");
@@ -302,6 +413,22 @@ function listarFavoritos() {
 
     let corpo = `funcao=${funcao}&caminho=${caminho}&pg=${pg}`;
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistarProdutos, alerterror);
+}
+
+function listarComprados() {
+    let funcao = 'listarPedidosFinalizados';
+    let caminho = 'EJBPlanetExpress/Pedidos';
+    funE = "listarPedidosFinalizados";
+
+    if (pg == 1) {
+        let boxprodutos = document.getElementById("boxprodutocomprados");
+
+        boxprodutos.innerHTML = '  ';
+
+    }
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaComprados, alerterror);
 }
 
 //NAVIGATOR
@@ -348,6 +475,7 @@ function trocatela(elem) {
         listarProdutosPesquisa();
 
     } else if (identificacao == 'meusdados') {
+        openpopup();
 
     } else if (identificacao == 'favoritos') {
         trocadisplay('boxprodutofavoritos');
@@ -355,8 +483,15 @@ function trocatela(elem) {
         tela = 'listarFavoritos';
         box = 'boxprodutofavoritos';
         listarFavoritos();
+        openpopup();
 
     } else if (identificacao == 'comprados') {
+        trocadisplay('boxprodutocomprados');
+        pg = 1;
+        tela = 'listarPedidosFinalizados';
+        box = 'boxprodutocomprados';
+        listarComprados();
+        openpopup();
 
     } else if (identificacao == 'carrinho') {
 
@@ -394,6 +529,12 @@ function trocadisplay(a) {
         document.getElementById('produtofavoritos').style.display = 'block';
     } else {
         document.getElementById('produtofavoritos').style.display = 'none';
+    }
+
+    if (a == 'boxprodutocomprados') {
+        document.getElementById('boxprodutocomprados').style.display = 'block';
+    } else {
+        document.getElementById('boxprodutocomprados').style.display = 'none';
     }
 }
 

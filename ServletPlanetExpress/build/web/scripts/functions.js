@@ -6,8 +6,7 @@ function removerFavoritos(elem) {
     let corpo = `funcao=${funcao}&caminho=${caminho}&id_produto=${idproduto}`;
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, alertresposta, alerterror);
 
-    pg == 1;
-    listarFavoritos();
+    document.getElementsByClassName('favoritos')[0].click();
 }
 
 function adicionarFavoritos(elem) {
