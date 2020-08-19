@@ -149,12 +149,12 @@ function processalistarProduto(resp) {
     if (respostas.desconto != 0) {
         let valorA = document.createElement('p');
         valorA.classList.add('produtovalorA');
-        valorA.innerHTML = "R$: " + respostas.valor;
+        valorA.innerHTML = "R$: " + respostas.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         boxdetalhes.appendChild(valorA);
 
         let valorB = document.createElement('p');
         valorB.classList.add('produtovalorB');
-        valorB.innerHTML = "Por R$: " + (respostas.valor - (respostas.valor * (respostas.desconto / 100))).toFixed(2);
+        valorB.innerHTML = "Por R$: " + (respostas.valor - (respostas.valor * (respostas.desconto / 100))).toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         boxdetalhes.appendChild(valorB);
 
         let descontos = document.createElement('span');
@@ -165,7 +165,7 @@ function processalistarProduto(resp) {
     } else {
         let valorA = document.createElement('p');
         valorA.classList.add('produtovalor');
-        valorA.innerHTML = "R$: " + respostas.valor;
+        valorA.innerHTML = "R$: " + respostas.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         boxdetalhes.appendChild(valorA);
     }
 
@@ -232,12 +232,12 @@ function processalistarProdutos(resp) {
         if (resposta.desconto != 0) {
             let valorA = document.createElement('p');
             valorA.classList.add('produtovalorA');
-            valorA.innerHTML = "R$: " + resposta.valor;
+            valorA.innerHTML = "R$: " + resposta.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             produtobox.appendChild(valorA);
 
             let valorB = document.createElement('p');
             valorB.classList.add('produtovalorB');
-            valorB.innerHTML = "Por R$: " + (resposta.valor - (resposta.valor * (resposta.desconto / 100))).toFixed(2);;
+            valorB.innerHTML = "Por R$: " + (resposta.valor - (resposta.valor * (resposta.desconto / 100))).toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             produtobox.appendChild(valorB);
 
             let descontos = document.createElement('span');
@@ -248,7 +248,7 @@ function processalistarProdutos(resp) {
         } else {
             let valorA = document.createElement('p');
             valorA.classList.add('produtovalor');
-            valorA.innerHTML = "R$: " + resposta.valor;
+            valorA.innerHTML = "R$: " + resposta.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             produtobox.appendChild(valorA);
         }
 
@@ -309,7 +309,7 @@ function processalistaComprados(resp) {
 
         let valor = document.createElement('p');
         valor.classList.add('valorcompra');
-        valor.innerText = resposta.valor;
+        valor.innerText = resposta.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 });
 
         let i = document.createElement('i');
         i.setAttribute('class', 'fas fa-sort-down');
@@ -369,6 +369,173 @@ function processalistaProdutosComprados(resp) {
 
     pg.appendChild(boxprodutos);
 }
+
+function processalistaCarrinho(resp) {
+    let respostasJ = JSON.parse(resp);
+    let respostas = respostasJ.produtos;
+
+    let valortotal = 0;
+
+    let box = document.getElementById('boxcarrinhodecompras');
+
+    let boxprodutos = document.createElement('table');
+    boxprodutos.setAttribute('id', 'tabelaCarrinho');
+
+    if (pg == 1) {
+        let titulo = document.createElement('h1');
+        titulo.setAttribute('class', 'titulopagina');
+        titulo.innerText = respostasJ.titulo;
+        box.appendChild(titulo);
+
+        let trcabecalho = document.createElement('thead');
+        trcabecalho.setAttribute('id', 'theadCabecalho');
+        trcabecalho.innerHTML = '<td>Descrição</td> <td>Preço</td> <td>Quantidade</td> <td>Subtotal</td> <td>Excluir<td>';
+        boxprodutos.appendChild(trcabecalho);
+
+    }
+
+
+    respostas.forEach(resposta => {
+        let produtolistado = document.createElement('tr');
+        produtolistado.classList.add('produtolistado');
+        produtolistado.classList.add(resposta.id);
+
+        //Descrição
+        let tdDescricao = document.createElement('td');
+        tdDescricao.setAttribute('class', 'tdDescricao');
+
+        let imagem = document.createElement('img');
+        imagem.classList.add('imagemProduto');
+        imagem.src = "/ServletPlanetExpress/retornaimagem?tipo=produtos&cod=" + resposta.img;
+
+        let nome = document.createElement('h2');
+        nome.classList.add('verproduto');
+        nome.setAttribute('class', 'nomeproduto');
+        nome.innerText = resposta.nome;
+        nome.setAttribute('onclick', 'trocatela(this);');
+
+        let marca = document.createElement('p');
+        marca.setAttribute('class', 'marcaproduto');
+        marca.innerText = resposta.marca;
+
+        tdDescricao.appendChild(imagem);
+        tdDescricao.appendChild(nome);
+        tdDescricao.appendChild(marca);
+
+
+        //Preço
+        let tdPreco = document.createElement('td');
+        tdPreco.setAttribute('class', 'tdPreco');
+
+        if (resposta.desconto != 0) {
+            let valorA = document.createElement('p');
+            valorA.classList.add('produtovalorA');
+            valorA.innerHTML = "R$: " + resposta.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            tdPreco.appendChild(valorA);
+
+            let sifrao = document.createElement('p');
+            sifrao.classList.add('produtovalorB');
+            sifrao.innerHTML = "Por R$: ";
+            tdPreco.appendChild(sifrao);
+
+            let valorB = document.createElement('p');
+            valorB.classList.add('produtovalorB');
+            valorB.innerHTML = (resposta.valor - (resposta.valor * (resposta.desconto / 100))).toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            tdPreco.appendChild(valorB);
+
+            let descontos = document.createElement('span');
+            descontos.classList.add('produtodesconto');
+            descontos.innerHTML = resposta.desconto + "% de desconto";
+            tdPreco.appendChild(descontos);
+
+        } else {
+            let sifrao = document.createElement('p');
+            sifrao.classList.add('produtovalorB');
+            sifrao.innerHTML = "R$: ";
+
+            let valorB = document.createElement('p');
+            valorB.classList.add('produtovalorB');
+            valorB.innerHTML = resposta.valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            tdPreco.appendChild(sifrao);
+            tdPreco.appendChild(valorB);
+
+        }
+
+
+        //Quantidade
+        let tdQuantidade = document.createElement('td');
+        tdQuantidade.setAttribute('class', 'tdQuantidade');
+
+        let qtde = document.createElement('input');
+        qtde.readOnly = true;
+        qtde.setAttribute('class', 'qtdeproduto');
+        qtde.value = resposta.qtde;
+
+        let diminuir = document.createElement('i');
+        diminuir.setAttribute('class', 'fas fa-caret-square-down');
+        diminuir.classList.add('diminuir');
+        diminuir.setAttribute('onclick', 'atualizaqtde(this);');
+
+        let aumentar = document.createElement('i');
+        aumentar.setAttribute('class', 'fas fa-caret-square-up');
+        aumentar.classList.add('aumentar');
+        aumentar.setAttribute('onclick', 'atualizaqtde(this);');
+
+
+        tdQuantidade.appendChild(diminuir);
+        tdQuantidade.appendChild(qtde);
+        tdQuantidade.appendChild(aumentar);
+
+
+        //Subtotal
+        let tdSubtotal = document.createElement('td');
+        tdSubtotal.setAttribute('class', 'tdSubtotal');
+
+        let valorSubtotal = document.createElement('p');
+        valorSubtotal.setAttribute('class', 'valorSubtotal');
+
+        if (resposta.desconto != 0) {
+            valorSubtotal.innerText = ((resposta.valor - (resposta.valor * (resposta.desconto / 100))) * resposta.qtde).toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            valortotal = parseFloat(valortotal) + parseFloat((((resposta.valor - (resposta.valor * (resposta.desconto / 100))) * resposta.qtde).toFixed(2)));
+        } else {
+            valorSubtotal.innerText = (resposta.valor * resposta.qtde).toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 });;
+            valortotal = parseFloat(valortotal) + parseFloat((resposta.valor * resposta.qtde));
+        }
+
+        tdSubtotal.appendChild(valorSubtotal);
+
+
+        //Remover
+        let tdExcluir = document.createElement('td');
+        tdExcluir.setAttribute('class', 'tdExcluir');
+        tdExcluir.innerHTML = '<i class="fas fa-window-close excluir" onclick="removeProdutoCarrinho(this);"></i>';
+
+
+        produtolistado.appendChild(tdDescricao);
+        produtolistado.appendChild(tdPreco);
+        produtolistado.appendChild(tdQuantidade);
+        produtolistado.appendChild(tdSubtotal);
+        produtolistado.appendChild(tdExcluir);
+
+        boxprodutos.appendChild(produtolistado);
+    });
+
+    let h2total = document.createElement('h2');
+    h2total.setAttribute('id', 'h2total');
+    h2total.innerText = 'TOTAL R$: ' + valortotal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+
+    let btnComprar = document.createElement('a');
+    btnComprar.setAttribute('class', 'btnComprar');
+    btnComprar.setAttribute('onclick', 'fecharPedido();');
+    btnComprar.innerText = 'Finalizar Pedido';
+
+
+    box.appendChild(boxprodutos);
+    box.appendChild(h2total);
+    box.appendChild(btnComprar);
+}
+
 
 //CONTROLLER
 
@@ -487,6 +654,22 @@ function listarProdutosComprados(elem) {
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaProdutosComprados, alerterror);
 }
 
+function listarCarrinho() {
+    let funcao = 'listarProdutosPedidoA';
+    let caminho = 'EJBPlanetExpress/Pedidos';
+    funE = "listarProdutosPedidoA";
+
+    if (pg == 1) {
+        let box = document.getElementById("boxcarrinhodecompras");
+
+        box.innerHTML = '  ';
+
+    }
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaCarrinho, alerterror);
+}
+
 //NAVIGATOR
 function trocatela(elem) {
     let identificacao = elem.classList[0];
@@ -536,6 +719,8 @@ function trocatela(elem) {
         tela = 'listarProdutosPesquisa';
         box = 'boxlistagemprodutos';
         id = document.getElementById('campopesquisa').value;
+        document.getElementById('campopesquisa').value = '';
+        document.getElementById('campopesquisa').style.display = 'none';
         listarProdutosPesquisa();
 
     } else if (identificacao == 'meusdados') {
@@ -558,6 +743,15 @@ function trocatela(elem) {
         openpopup();
 
     } else if (identificacao == 'carrinho') {
+        if (localStorage.getItem('Authorization') != null) {
+            trocadisplay('boxcarrinhodecompras');
+            pg = 1;
+            tela = 'listarProdutosPedidoA';
+            box = 'boxcarrinhodecompras';
+            listarCarrinho();
+        } else {
+            //LOGIN
+        }
 
     }
 }
@@ -600,6 +794,12 @@ function trocadisplay(a) {
     } else {
         document.getElementById('boxprodutocomprados').style.display = 'none';
     }
+
+    if (a == 'boxcarrinhodecompras') {
+        document.getElementById('boxcarrinhodecompras').style.display = 'block';
+    } else {
+        document.getElementById('boxcarrinhodecompras').style.display = 'none';
+    }
 }
 
 
@@ -619,6 +819,9 @@ $(window).scroll(function() {
                     break;
                 case 'listarProduto':
                     listarProduto();
+                    break;
+                case 'listarProdutosPesquisa':
+                    listarProdutosPesquisa();
                     break;
             }
 
