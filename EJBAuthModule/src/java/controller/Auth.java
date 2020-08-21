@@ -76,6 +76,24 @@ public class Auth {
                         }
                         break;
 
+                    case "dadosUsuario": //BLOQUEADO
+                        authresponse = auth(request, response);
+                        if (!"A".equals(authresponse)) {
+                            resultado = (String) EJBConnection.execMethod(request.getParameter("caminho"), request.getParameter("funcao"), request, response, authresponse);
+                        } else {
+                            response.setStatus(400);
+                        }
+                        break;
+                        
+                    case "dadosEndereco": //BLOQUEADO
+                        authresponse = auth(request, response);
+                        if (!"A".equals(authresponse)) {
+                            resultado = (String) EJBConnection.execMethod(request.getParameter("caminho"), request.getParameter("funcao"), request, response, authresponse);
+                        } else {
+                            response.setStatus(400);
+                        }
+                        break;
+                        
                     default:
                         resultado = (String) EJBConnection.execMethod(request.getParameter("caminho"), request.getParameter("funcao"), request, response);
                         break;

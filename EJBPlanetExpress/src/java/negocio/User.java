@@ -190,6 +190,64 @@ public class User {
             return 0;
         }
     }
+    
+    public String dadosUsuario(HttpServletRequest request, HttpServletResponse response, String jsonAuth){
+        try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
+            
+            ModelUser user = new DAOuser().listardadosUsuario(jsonA.getInt("user_id"));
+                        
+            JSONObject retorno = new JSONObject();
+
+            JSONObject json = new JSONObject();
+
+            json.put("nome", user.getNome());
+            json.put("sobrenome", user.getSobrenome());
+            json.put("email", user.getEmail());
+            json.put("telefone", user.getTelefone());
+            json.put("cpf", user.getCpf());
+            json.put("rg", user.getRg());
+            json.put("enderecoId", user.getEndereco());   
+            json.put("img", user.getImg());
+                        
+            retorno.put("titulo", "Dados Pessoais");
+            retorno.put("user", json);
+
+            response.setStatus(200);
+            return retorno.toString();
+        } catch (SQLException ex) {
+            response.setStatus(400);
+            return ("{\"erro\":\"Erro ao buscar detalhes do Usuário!\"}");
+        }
+    }
+    
+        public String dadosEndereco(HttpServletRequest request, HttpServletResponse response, String jsonAuth){
+        try {
+            JSONObject jsonA = new JSONObject(jsonAuth);
+            
+            ModelEndereco endereco = new DAOuser().listardadosEndereco(jsonA.getInt("user_id"), request.getParameter("cpf"));
+                        
+            JSONObject retorno = new JSONObject();
+
+            JSONObject json = new JSONObject();
+
+            json.put("cidade", endereco.getCidade());
+            json.put("estado_id", endereco.getEstado());
+            json.put("cep", endereco.getCep());
+            json.put("bairro", endereco.getBairro());
+            json.put("rua", endereco.getRua());
+            json.put("numero", endereco.getNumero());
+                        
+            retorno.put("titulo", "Endereço");
+            retorno.put("endereco", json);
+
+            response.setStatus(200);
+            return retorno.toString();
+        } catch (SQLException ex) {
+            response.setStatus(400);
+            return ("{\"erro\":\"Erro ao buscar Endereço!\"}");
+        }
+    }
 
     public String modificarUsuario(HttpServletRequest request, HttpServletResponse response, String jsonAuth) {
 

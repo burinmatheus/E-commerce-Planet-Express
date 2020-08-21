@@ -43,17 +43,17 @@
                             <h1>Login</h1>
                             <p>Para realizar ações no site, você precisa estar logado. Preencha as informações ao lado para realigar o login ou crie uma conta.</p>
                             <p>Ao utilizar este site você concorda com os termos de uso e privacidade.</p>
-                            <a class="abir-cadastro">Ainda não possuo cadastro, realizar agora.</a>
+                            <a class="abir-cadastro" onclick=" openLogin(0); openRegistro(1);">Ainda não possuo cadastro, realizar agora.</a>
                         </div>
                         <div id="formlogreg-dir">
                             <div id="user-ft">
                                 <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
                             </div>
                             <form>
-                                <input class="inlog loginadd" placeholder="Insira seu Email ou CPF">
-                                <input class="inlog senha" placeholder="Insira sua Senha">
+                                <input class="inlog loginadd" placeholder="Insira seu CPF" onBlur="buscaUser(this)">
+                                <input type="password" class="inlog senha" placeholder="Insira sua Senha">
                                 <a>Esqueci a senha</a>
-                                <input class="btn inlog logar" type="button" value="Entrar">
+                                <input class="btn inlog logar" type="button" value="Entrar" onclick="logar(this)">
                             </form>
                         </div>
                     </div>
@@ -67,21 +67,23 @@
                                 <p>Para realizar ações no site, você precisa estar cadastrado.</p>
                                 <p>Preencha as informações ao lado para realizar o cadastro.</p>
                                 <p>Ao utilizar este site você concorda com os termos de uso e privacidade.</p>
-                                <a>Já possuo cadastro, entrar agora.</a>
+                                <a onclick=" openRegistro(0); openLogin(1); ">Já possuo cadastro, entrar agora.</a>
                             </div>
                             <div id="formReg-dir">
                                 <form>
                                     <input class="inlog" id="nome" placeholder="Insira seu Nome">
                                     <input class="inlog" id="sobrenome" placeholder="Insira seu Sobrenome">
                                     <input class="inlog" id="email" placeholder="Insira seu melhor Email">
-                                    <input class="btn inlog" type="button" value="Continuar">
+                                    <input class="inlog" id="senha" type="password" placeholder="Insira uma Senha">
+                                    <input class="inlog" id="repsenha" type="password" placeholder="Repita a Senha">
+                                    <input class="btn inlog" type="button" value="Continuar" onclick="continuarRegistro();">
                                 </form>
                             </div>
                         </div>
                         <div id="regpt2" style="display: none;">
                             <div id="formReg-esq">
                                 <div class="userRegImg">
-                                    <img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
+                                    <img class="Bender" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">
                                 </div>
                                 <div id="informacoesP">
                                     <input class="inlog" id="telefone" type="number" placeholder="Insira seu Telefone">
@@ -95,12 +97,12 @@
                                     <input class="inlog" id="cep" type="number" placeholder="Insira seu CEP">
                                     <select class="inlog" id="estado">
                                                     <option value="Estado" selected>Selecione seu Estado</option>
-                                                </select>
+                                    </select>
                                     <input class="inlog" id="cidade" type="text" placeholder="Insira sua Cidade">
                                     <input class="inlog" id="bairro" type="text" placeholder="Insira seu Bairro">
                                     <input class="inlog" id="rua" type="text" placeholder="Insira sua Rua">
                                     <input class="inlog" id="numero" type="number" placeholder="Insira o Número da casa">
-                                    <input class="btn inlog" type="button" value="Confirmar">
+                                    <input class="btn inlog" type="button" value="Confirmar" onclick="registrar();">
                                 </div>
                             </div>
                         </div>
@@ -165,6 +167,11 @@
 
         <section id="carrinhodecompras">
             <div class="boxcarrinhodecompras" id="boxcarrinhodecompras">
+            </div>
+        </section>
+
+        <section id="userdados">
+            <div class="boxuserdados" id="boxuserdados">
             </div>
         </section>
 

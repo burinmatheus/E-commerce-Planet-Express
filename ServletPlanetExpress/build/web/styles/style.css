@@ -184,10 +184,21 @@ body {
 }
 
 
-/*INICIAL*/
+/*BANNERS*/
 
 #content .carousel {
     z-index: -1;
+}
+
+
+/*PRODUTOS*/
+
+h1.titulopagina {
+    color: white;
+    text-align: center;
+    margin: 1em;
+    font-size: 2.3em;
+    font-weight: bolder;
 }
 
 #content .boxprodutos {
@@ -197,7 +208,13 @@ body {
     width: 90%;
 }
 
-#content .boxprodutos .produtobox {
+.boxprodutofavoritos {
+    position: relative;
+    left: 5%;
+    width: 90%;
+}
+
+#content div.produtobox {
     background: white;
     display: inline-block;
     padding: 1em;
@@ -206,12 +223,62 @@ body {
     width: calc(85% / 3);
     height: 24em;
     vertical-align: bottom;
+    position: relative;
 }
 
-#content .boxprodutos .produtobox .imagemProduto {
+#content div.produtobox .imagemProduto {
     display: block;
     margin: 0 auto;
     height: 39%;
+}
+
+.produtobox span.produtodesconto {
+    background-color: indianred;
+    padding: 8px;
+    border-radius: 12px 0 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+h3.produtonome {
+    margin-bottom: 0;
+    font-weight: bolder;
+}
+
+p.produtomarca {
+    margin-top: 0;
+}
+
+p.produtovalorA {
+    text-decoration: line-through;
+    font-size: 0.8em;
+    margin-bottom: 0;
+}
+
+p.produtovalorB,
+p.produtovalor {
+    font-weight: bolder;
+    margin-top: 0;
+}
+
+.btnaddFav:hover,
+.btnaddCarrinho:hover,
+.btnremoverFav:hover {
+    filter: drop-shadow(2px 4px 6px black);
+    -webkit-box-shadow: none;
+}
+
+.btnaddFav,
+.btnaddCarrinho,
+.btnremoverFav {
+    text-align: center;
+    margin: 1em;
+    background-color: #36538B;
+    padding: .5em;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 10px #0000005e;
+    cursor: pointer;
 }
 
 
@@ -219,4 +286,331 @@ body {
 
 #content #produtoslistagem .boxprodutos {
     top: 0;
+}
+
+
+/*DADOS USUARIO*/
+
+div#userImg {
+    display: inline-block;
+    width: 50%;
+    vertical-align: middle;
+}
+
+div#userImg img {
+    border-radius: 100%;
+    display: block;
+    margin: 1em auto;
+}
+
+div#imgsUsers {
+    display: inline-block;
+    width: 32%;
+    vertical-align: middle;
+}
+
+div#imgsUsers img {
+    width: 63px;
+    border-radius: 100%;
+    margin: 1em;
+}
+
+div#dadosUser label,
+div#dadosEndereco label {
+    color: white;
+    font-weight: 700;
+    letter-spacing: .8px;
+    display: block;
+    text-align: center;
+}
+
+input.campodadouser,
+select.campodadouser {
+    display: block;
+    margin: 3px auto 1em auto;
+    width: 39%;
+    height: 2.4em;
+    border-radius: 6px;
+    outline: 0;
+    border: 0;
+    background-color: #1D1D1D;
+    color: white;
+    padding-left: .5em;
+}
+
+label#labelsenha {
+    margin-top: 3em;
+    border-top: 1.2px solid #1d1d1dc7;
+    padding-top: 3em;
+}
+
+input.campodadouser[type=button] {
+    display: block;
+    font-weight: bolder;
+    background-color: black;
+    width: 39.5%;
+    height: 2.5em;
+}
+
+select.campodadouser {
+    display: block;
+    font-weight: bolder;
+    width: 39.6%;
+    height: 2.6em;
+}
+
+div#btndiv,
+div#btndivendereco {
+    width: fit-content;
+    display: block;
+    margin: 27px auto;
+}
+
+div#btndiv input,
+div#btndivendereco input {
+    background-color: #1D1D1D;
+    color: white;
+    border: 0;
+    margin: .5em;
+    padding: .4em;
+    border-radius: 5px;
+    font-weight: bolder;
+}
+
+
+/*CARRINHO DE COMPRAS*/
+
+thead#theadCabecalho {
+    background-color: #36538B;
+}
+
+thead#theadCabecalho td {
+    color: white;
+    font-weight: bolder;
+    padding: .8em;
+    text-align: center;
+}
+
+table#tabelaCarrinho {
+    width: 90%;
+    margin: 0 auto;
+    background-color: black;
+    background: rgba(0, 0, 0, 0.17);
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    color: white;
+}
+
+.divimgcarrinho {
+    background-color: white;
+    width: 75px;
+    height: 75px;
+    padding: .5em;
+    border-radius: 7px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img.imagemProduto {
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+h2.nomeproduto {
+    font-size: 0.9em;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 1em;
+}
+
+p.marcaproduto {
+    display: none;
+}
+
+td.tdDescricao,
+td.tdPreco,
+td.tdQuantidade,
+td.tdSubtotal,
+td.tdExcluir {
+    padding: 1em;
+}
+
+td.tdQuantidade,
+td.tdSubtotal,
+td.tdExcluir {
+    padding: 1em;
+    text-align: center;
+}
+
+table span.produtodesconto {
+    display: block;
+    font-size: .6em;
+}
+
+table p.produtovalorB,
+table p.produtovalor {
+    display: inline-block;
+    margin-left: .1em;
+}
+
+table input.qtdeproduto {
+    width: 55px;
+    background-color: #1b1a1ac7;
+    color: white;
+    padding: .2em;
+    text-align: center;
+    border: 0;
+    vertical-align: middle;
+    border-radius: 4px;
+    margin: .2em;
+}
+
+i.fas.fa-caret-square-down.diminuir,
+i.fas.fa-caret-square-up.aumentar {
+    font-size: 2em;
+    color: #1b1a1ac7;
+    vertical-align: middle;
+}
+
+i.fas.fa-window-close.excluir {
+    font-size: 1.4em;
+    color: #1b1a1ac7;
+}
+
+table tr.produtolistado {
+    border-bottom: 3px solid black;
+}
+
+h2#h2total {
+    color: white;
+    text-align: center;
+}
+
+a.btnComprar {
+    background-color: #36538B;
+    color: white;
+    padding: 1em 3em;
+    font-weight: bolder;
+    letter-spacing: .8px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 0 0 0 calc((100% / 2) - 7em);
+}
+
+
+/*HISTÓRICO DE COMPRAS*/
+
+div.boxcompradoresumo {
+    text-align: center;
+    background-color: #36538B;
+    border-radius: 10px;
+    padding-bottom: .7em;
+    margin-bottom: 29px;
+}
+
+div.boxcompradoresumo p {
+    display: inline-block;
+    margin: 1em 25% 0 0;
+    color: white;
+    vertical-align: -webkit-baseline-middle;
+}
+
+div.boxcompradoresumo i {
+    display: inline-block;
+    color: white;
+    font-size: 1.5em;
+    vertical-align: -webkit-baseline-middle;
+}
+
+div#boxprodutocomprados {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+div#boxprodutocomprados div.listadeprodutos {
+    border-top: 1px solid white;
+}
+
+.boximgcomprados {
+    background-color: white;
+    width: 75px;
+    height: 75px;
+    padding: .5em;
+    border-radius: 7px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.boximgcomprados img.imagemProduto {
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.listadeprodutos .produtolistado {
+    margin-top: 2em;
+    color: white;
+}
+
+.produtolistado p.marcaproduto {
+    display: inline-block;
+    margin: 0 2em;
+    color: white;
+    vertical-align: middle;
+}
+
+.produtolistado p.qtdeproduto {
+    display: inline-block;
+    margin: 0 2em;
+    color: white;
+    vertical-align: middle;
+}
+
+.produtolistado .verproduto {
+    display: inline-block;
+    margin: 0 4em;
+}
+
+
+/*DETALHES PRODUTO*/
+
+div#boxprodutodetalhes div#boximgs {
+    margin-top: 4em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div#boxprodutodetalhes div#boxdescricao {
+    color: white;
+}
+
+div#boxprodutodetalhes div.boxdetalhes {
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+    padding-right: 2em;
+    float: right;
+    padding-top: 7em;
+}
+
+div#boxprodutodetalhes div#divminiaturas {
+    background-color: white;
+    width: 5em;
+    text-align: -webkit-center;
+    display: inline-block;
+}
+
+div#boxprodutodetalhes div#divminiaturas img {
+    height: 5em;
+    display: block;
+}
+
+div#boxprodutodetalhes div#divimg {
+    display: inline-block;
+}
+
+div#boxprodutodetalhes div#divimg img {
+    height: 35em;
 }

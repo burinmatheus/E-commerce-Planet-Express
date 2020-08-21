@@ -12,14 +12,28 @@ html {
     margin: 0 auto;
 }
 
+#corpo {
+    position: absolute;
+    display: inline-block;
+    z-index: 1;
+}
+
 
 /*LOGIN*/
 
+#corpo input[type=number]::-webkit-inner-spin-button,
+#corpo input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#corpo input {
+    outline: 0;
+}
+
 #corpo #formlogreg .background {
-    background-image: url(../img/backgrnd.jpg);
-    background-size: cover;
     height: 100vh;
-    filter: blur(3px) brightness(0.1);
+    background-color: #000000ba;
 }
 
 #corpo #formlogreg #formlogreg-externo {

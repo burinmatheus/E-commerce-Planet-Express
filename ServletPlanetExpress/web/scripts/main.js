@@ -91,6 +91,34 @@ function carregaSegmentos() {
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processaSegmentos, alerterror);
 }
 
+//ESTADOS
+function processaEstados(resp) {
+    let respostas = JSON.parse(resp).estados;
+
+    box.innerHTML = '<option value="Estado" selected>Selecione seu Estado</option>';
+
+    respostas.forEach(resposta => {
+        let option = document.createElement('option');
+        option.value = resposta.id;
+        option.innerText = resposta.sigla + ' - ' + resposta.nome;
+
+        box.appendChild(option);
+    });
+
+    if (box.id == 'userestado') {
+        $('#userestado').val(sessionStorage.getItem('Estado'));
+    }
+}
+
+function carregaEstados(elem) {
+    let funcao = 'listarEstados';
+    let caminho = 'EJBPlanetExpress/Tela';
+    box = elem;
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processaEstados, alerterror);
+}
+
 
 //PROCESSA DADOS RECEBIDOS
 
@@ -203,10 +231,18 @@ function processalistarProduto(resp) {
 
 function processalistarProdutos(resp) {
     let respostas = JSON.parse(resp);
-    respostas = respostas.produtos;
+
     pg = pg + 1;
 
     let boxprodutos = document.getElementById('' + box + '');
+
+    if (tela == 'listarFavoritos') {
+        let titulo = document.createElement('h1');
+        titulo.setAttribute('class', 'titulopagina');
+        titulo.innerText = respostas.titulo;
+        boxprodutos.appendChild(titulo);
+    }
+    respostas = respostas.produtos;
 
     respostas.forEach(resposta => {
         let produtobox = document.createElement('div');
@@ -280,15 +316,17 @@ function processalistarProdutos(resp) {
 
 function processalistaComprados(resp) {
     let respostas = JSON.parse(resp);
-    respostas = respostas.pedidos;
+
 
     let boxprodutos = document.getElementById('boxprodutocomprados');
 
-    if (pg == 0) {
-        let titulopag = document.createElement('h1');
-        titulopag.setAttribute('class', 'titulopag');
-        boxprodutos.appendChild(titulopag);
+    if (pg == 1) {
+        let titulo = document.createElement('h1');
+        titulo.setAttribute('class', 'titulopagina');
+        titulo.innerText = respostas.titulo;
+        boxprodutos.appendChild(titulo);
     }
+    respostas = respostas.pedidos;
 
 
     pg = pg + 1;
@@ -337,6 +375,9 @@ function processalistaProdutosComprados(resp) {
         produtolistado.classList.add('produtolistado');
         produtolistado.classList.add(resposta.id);
 
+        let divimg = document.createElement('div');
+        divimg.setAttribute('class', 'boximgcomprados');
+
         let imagem = document.createElement('img');
         imagem.classList.add('imagemProduto');
         imagem.src = "/ServletPlanetExpress/retornaimagem?tipo=produtos&cod=" + resposta.img;
@@ -358,7 +399,8 @@ function processalistaProdutosComprados(resp) {
         btn.innerHTML = "Ver Produto"
         btn.setAttribute('onclick', 'trocatela(this);');
 
-        produtolistado.appendChild(imagem);
+        divimg.appendChild(imagem);
+        produtolistado.appendChild(divimg);
         produtolistado.appendChild(nome);
         produtolistado.appendChild(marca);
         produtolistado.appendChild(qtde);
@@ -380,6 +422,7 @@ function processalistaCarrinho(resp) {
 
     let boxprodutos = document.createElement('table');
     boxprodutos.setAttribute('id', 'tabelaCarrinho');
+    boxprodutos.setAttribute('border', '1px');
 
     if (pg == 1) {
         let titulo = document.createElement('h1');
@@ -389,7 +432,7 @@ function processalistaCarrinho(resp) {
 
         let trcabecalho = document.createElement('thead');
         trcabecalho.setAttribute('id', 'theadCabecalho');
-        trcabecalho.innerHTML = '<td>Descrição</td> <td>Preço</td> <td>Quantidade</td> <td>Subtotal</td> <td>Excluir<td>';
+        trcabecalho.innerHTML = '<td>Descrição</td> <td>Preço</td> <td>Quantidade</td> <td>Subtotal</td> <td>Excluir</td>';
         boxprodutos.appendChild(trcabecalho);
 
     }
@@ -403,6 +446,9 @@ function processalistaCarrinho(resp) {
         //Descrição
         let tdDescricao = document.createElement('td');
         tdDescricao.setAttribute('class', 'tdDescricao');
+
+        let divimg = document.createElement('div');
+        divimg.setAttribute('class', 'divimgcarrinho');
 
         let imagem = document.createElement('img');
         imagem.classList.add('imagemProduto');
@@ -418,7 +464,8 @@ function processalistaCarrinho(resp) {
         marca.setAttribute('class', 'marcaproduto');
         marca.innerText = resposta.marca;
 
-        tdDescricao.appendChild(imagem);
+        divimg.appendChild(imagem);
+        tdDescricao.appendChild(divimg);
         tdDescricao.appendChild(nome);
         tdDescricao.appendChild(marca);
 
@@ -534,6 +581,324 @@ function processalistaCarrinho(resp) {
     box.appendChild(boxprodutos);
     box.appendChild(h2total);
     box.appendChild(btnComprar);
+}
+
+function processalistaDadosUsuario(resp) {
+    let respostasJ = JSON.parse(resp);
+    let resposta = respostasJ.user;
+
+    let box = document.getElementById('boxuserdados');
+
+    if (pg == 1) {
+        let titulo = document.createElement('h1');
+        titulo.setAttribute('class', 'titulopagina');
+        titulo.innerText = respostasJ.titulo;
+        box.appendChild(titulo);
+
+    }
+
+    //BOTÕES
+    let divbtn = document.createElement('div');
+    divbtn.setAttribute('id', 'btndiv');
+
+    let btnedit = document.createElement('input');
+    btnedit.setAttribute('type', 'button');
+    btnedit.setAttribute('value', 'Habilitar Edição');
+    btnedit.setAttribute('onclick', 'edicaodecampos(1);');
+
+    let btncancelar = document.createElement('input');
+    btncancelar.setAttribute('type', 'button');
+    btncancelar.setAttribute('value', 'Cancelar Edição');
+    btncancelar.setAttribute('onclick', 'listarDadosUsuario();');
+
+    let btnsalvar = document.createElement('input');
+    btnsalvar.setAttribute('type', 'button');
+    btnsalvar.setAttribute('value', 'Salvar Alterações');
+    btnsalvar.setAttribute('onclick', 'salvarDados();');
+
+    divbtn.appendChild(btnedit);
+    divbtn.appendChild(btncancelar);
+    divbtn.appendChild(btnsalvar);
+    box.appendChild(divbtn);
+
+    //IMG
+    let imgUser = document.createElement('div');
+    imgUser.innerHTML = '<img src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=' + resposta.img + '">';
+    imgUser.setAttribute('id', 'userImg');
+    imgUser.setAttribute('class', resposta.img);
+
+    //BOX IMGS
+    let imgs = document.createElement('div');
+    imgs.setAttribute('id', 'imgsUsers');
+    imgs.innerHTML = '<img class="Amy" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Amy">' +
+        '<img class="Bender" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Bender">' +
+        '<img class="Farnsworth" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Farnsworth">' +
+        '<img class="Fry" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Fry">' +
+        '<img class="Hermes" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Hermes">' +
+        '<img class="Leela" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Leela">' +
+        '<img class="Nibbler" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Nibbler">' +
+        '<img class="Zoidberg" onclick="trocaImagemUser(this);" src="/ServletPlanetExpress/retornaimagem?tipo=users&cod=Zoidberg">';
+
+
+    //DADOS USUÁRIO
+    let dadosUser = document.createElement('div');
+    dadosUser.setAttribute('id', 'dadosUser');
+
+    //Nome
+    let labelnome = document.createElement('label');
+    labelnome.setAttribute('id', 'labelnome');
+    labelnome.innerText = 'Nome:';
+
+    let usernome = document.createElement('input');
+    usernome.setAttribute('id', 'usernome');
+    usernome.setAttribute('class', 'campodadouser');
+    usernome.value = resposta.nome;
+
+    dadosUser.appendChild(labelnome);
+    dadosUser.appendChild(usernome);
+
+    //Sobrenome
+    let labelsobrenome = document.createElement('label');
+    labelsobrenome.setAttribute('id', 'labelsobrenome');
+    labelsobrenome.innerText = 'Sobrenome:';
+
+    let usersobrenome = document.createElement('input');
+    usersobrenome.setAttribute('id', 'usersobrenome');
+    usersobrenome.setAttribute('class', 'campodadouser');
+    usersobrenome.value = resposta.sobrenome;
+
+    dadosUser.appendChild(labelsobrenome);
+    dadosUser.appendChild(usersobrenome);
+
+    //Email
+    let labelemail = document.createElement('label');
+    labelemail.setAttribute('id', 'labelemail');
+    labelemail.innerText = 'Email:';
+
+    let useremail = document.createElement('input');
+    useremail.setAttribute('id', 'useremail');
+    useremail.setAttribute('class', 'campodadouser');
+    useremail.value = resposta.email;
+
+    dadosUser.appendChild(labelemail);
+    dadosUser.appendChild(useremail);
+
+    //Telefone
+    let labeltelefone = document.createElement('label');
+    labeltelefone.setAttribute('id', 'labeltelefone');
+    labeltelefone.innerText = 'Telefone:';
+
+    let usertelefone = document.createElement('input');
+    usertelefone.setAttribute('id', 'usertelefone');
+    usertelefone.setAttribute('class', 'campodadouser');
+    usertelefone.setAttribute('type', 'number');
+    usertelefone.value = resposta.telefone;
+
+    dadosUser.appendChild(labeltelefone);
+    dadosUser.appendChild(usertelefone);
+
+    //RG
+    let labelrg = document.createElement('label');
+    labelrg.setAttribute('id', 'labelrg');
+    labelrg.innerText = 'RG:';
+
+    let userrg = document.createElement('input');
+    userrg.setAttribute('id', 'userrg');
+    userrg.setAttribute('class', 'campodadouser');
+    userrg.setAttribute('type', 'number');
+    userrg.setAttribute('onclick', 'alert(\'Para Alterar este dado entre em contato conosco!\')');
+    userrg.readOnly = true;
+    userrg.value = resposta.rg;
+
+    dadosUser.appendChild(labelrg);
+    dadosUser.appendChild(userrg);
+
+    //CPF
+    let labelcpf = document.createElement('label');
+    labelcpf.setAttribute('id', 'labelcpf');
+    labelcpf.innerText = 'CPF:';
+
+    let usercpf = document.createElement('input');
+    usercpf.setAttribute('id', 'usercpf');
+    usercpf.setAttribute('class', 'campodadouser');
+    usercpf.setAttribute('type', 'number');
+    usercpf.setAttribute('onclick', 'alert(\'Para Alterar este dado entre em contato conosco!\')');
+    usercpf.readOnly = true;
+    usercpf.value = resposta.cpf;
+
+    dadosUser.appendChild(labelcpf);
+    dadosUser.appendChild(usercpf);
+
+    //Senha
+    let labelsenha = document.createElement('label');
+    labelsenha.setAttribute('id', 'labelsenha');
+    labelsenha.innerText = 'Senha:';
+
+    let usersenha = document.createElement('input');
+    usersenha.setAttribute('id', 'usersenha');
+    usersenha.setAttribute('class', 'campodadouser');
+    usersenha.setAttribute('type', 'password');
+
+    let labelconfsenha = document.createElement('label');
+    labelconfsenha.setAttribute('id', 'labelconfsenha');
+    labelconfsenha.innerText = 'Repita a senha:';
+
+    let userconfsenha = document.createElement('input');
+    userconfsenha.setAttribute('id', 'userconfsenha');
+    userconfsenha.setAttribute('class', 'campodadouser');
+    userconfsenha.setAttribute('type', 'password');
+
+    dadosUser.appendChild(labelsenha);
+    dadosUser.appendChild(usersenha);
+
+    dadosUser.appendChild(labelconfsenha);
+    dadosUser.appendChild(userconfsenha);
+
+    let btnsenha = document.createElement('input');
+    btnsenha.setAttribute('class', 'campodadouser');
+    btnsenha.setAttribute('type', 'button');
+    btnsenha.setAttribute('onclick', 'salvaSenha();');
+    btnsenha.value = '>';
+
+    dadosUser.appendChild(btnsenha);
+
+
+
+    box.appendChild(imgUser);
+    box.appendChild(imgs);
+    box.appendChild(dadosUser);
+
+    edicaodecampos(0);
+    listarDadosEndereco();
+}
+
+function processalistaEnderecoUsuario(resp) {
+    let respostasJ = JSON.parse(resp);
+    let resposta = respostasJ.endereco;
+
+    let box = document.getElementById('boxuserdados');
+
+    if (pg == 1) {
+        let titulo = document.createElement('h1');
+        titulo.setAttribute('class', 'titulopagina');
+        titulo.innerText = respostasJ.titulo;
+        box.appendChild(titulo);
+
+    }
+
+    //BOTÕES
+    let divbtn = document.createElement('div');
+    divbtn.setAttribute('id', 'btndivendereco');
+
+    let btnedit = document.createElement('input');
+    btnedit.setAttribute('type', 'button');
+    btnedit.setAttribute('value', 'Editar Endereço');
+    btnedit.setAttribute('onclick', 'edicaodeendereco(1);');
+
+    let btncancelar = document.createElement('input');
+    btncancelar.setAttribute('type', 'button');
+    btncancelar.setAttribute('value', 'Cancelar Edição');
+    btncancelar.setAttribute('onclick', 'listarDadosUsuario();');
+
+    let btnsalvar = document.createElement('input');
+    btnsalvar.setAttribute('type', 'button');
+    btnsalvar.setAttribute('value', 'Salvar Endereço');
+    btnsalvar.setAttribute('onclick', 'salvarEndereco();');
+
+    divbtn.appendChild(btnedit);
+    divbtn.appendChild(btncancelar);
+    divbtn.appendChild(btnsalvar);
+    box.appendChild(divbtn);
+
+    //DADOS USUÁRIO
+    let dadosEndereco = document.createElement('div');
+    dadosEndereco.setAttribute('id', 'dadosEndereco');
+
+    //Estado
+    let labelestado = document.createElement('label');
+    labelestado.setAttribute('id', 'labelestado');
+    labelestado.innerText = 'Estado:';
+
+    let userestado = document.createElement('select');
+    userestado.setAttribute('id', 'userestado');
+    userestado.setAttribute('class', 'campodadouser');
+    sessionStorage.setItem('Estado', resposta.estado_id);
+
+    dadosEndereco.appendChild(labelestado);
+    dadosEndereco.appendChild(userestado);
+
+    //Cidade
+    let labelcidade = document.createElement('label');
+    labelcidade.setAttribute('id', 'labelcidade');
+    labelcidade.innerText = 'Cidade:';
+
+    let usercidade = document.createElement('input');
+    usercidade.setAttribute('id', 'usercidade');
+    usercidade.setAttribute('class', 'campodadouser');
+    usercidade.value = resposta.cidade;
+
+    dadosEndereco.appendChild(labelcidade);
+    dadosEndereco.appendChild(usercidade);
+
+    //CEP
+    let labelcep = document.createElement('label');
+    labelcep.setAttribute('id', 'labelcep');
+    labelcep.innerText = 'CEP:';
+
+    let usercep = document.createElement('input');
+    usercep.setAttribute('id', 'usercep');
+    usercep.setAttribute('class', 'campodadouser');
+    usercep.value = resposta.cep;
+
+    dadosEndereco.appendChild(labelcep);
+    dadosEndereco.appendChild(usercep);
+
+    //Bairro
+    let labelbairro = document.createElement('label');
+    labelbairro.setAttribute('id', 'labelbairro');
+    labelbairro.innerText = 'Bairro:';
+
+    let userbairro = document.createElement('input');
+    userbairro.setAttribute('id', 'userbairro');
+    userbairro.setAttribute('class', 'campodadouser');
+    userbairro.value = resposta.bairro;
+
+    dadosEndereco.appendChild(labelbairro);
+    dadosEndereco.appendChild(userbairro);
+
+    //Rua
+    let labelrua = document.createElement('label');
+    labelrua.setAttribute('id', 'labelrua');
+    labelrua.innerText = 'Rua:';
+
+    let userrua = document.createElement('input');
+    userrua.setAttribute('id', 'userrua');
+    userrua.setAttribute('class', 'campodadouser');
+    userrua.value = resposta.rua;
+
+    dadosEndereco.appendChild(labelrua);
+    dadosEndereco.appendChild(userrua);
+
+    //Numero
+    let labelnumero = document.createElement('label');
+    labelnumero.setAttribute('id', 'labelnumero');
+    labelnumero.innerText = 'Número:';
+
+    let usernumero = document.createElement('input');
+    usernumero.setAttribute('id', 'usernumero');
+    usernumero.setAttribute('class', 'campodadouser');
+    usernumero.setAttribute('type', 'number');
+    usernumero.value = resposta.numero;
+
+    dadosEndereco.appendChild(labelnumero);
+    dadosEndereco.appendChild(usernumero);
+
+
+    box.appendChild(dadosEndereco);
+
+    edicaodeendereco(0);
+    carregaEstados(document.getElementById('userestado'));
+
 }
 
 
@@ -670,6 +1035,41 @@ function listarCarrinho() {
     requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaCarrinho, alerterror);
 }
 
+function listarDadosEndereco() {
+    let funcao = 'dadosEndereco';
+    let caminho = 'EJBPlanetExpress/User';
+    funE = "dadosEndereco";
+
+    let cpf;
+
+    if (document.getElementById('usercpf').value != '') {
+        cpf = document.getElementById('usercpf').value;
+
+    } else {
+        alert('Campo de CPF em branco !!!');
+        return false;
+    }
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}&cpf=${cpf}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaEnderecoUsuario, alerterror);
+}
+
+function listarDadosUsuario() {
+    let funcao = 'dadosUsuario';
+    let caminho = 'EJBPlanetExpress/User';
+    funE = "dadosUsuario";
+
+    if (pg == 1) {
+        let box = document.getElementById("boxuserdados");
+
+        box.innerHTML = '  ';
+
+    }
+
+    let corpo = `funcao=${funcao}&caminho=${caminho}`;
+    requisicao('/ServletPlanetExpress/ServletPlanetExpress', corpo, processalistaDadosUsuario, alerterror);
+}
+
 //NAVIGATOR
 function trocatela(elem) {
     let identificacao = elem.classList[0];
@@ -723,15 +1123,20 @@ function trocatela(elem) {
         document.getElementById('campopesquisa').style.display = 'none';
         listarProdutosPesquisa();
 
-    } else if (identificacao == 'meusdados') {
-        openpopup();
-
     } else if (identificacao == 'favoritos') {
         trocadisplay('boxprodutofavoritos');
         pg = 1;
         tela = 'listarFavoritos';
         box = 'boxprodutofavoritos';
         listarFavoritos();
+        openpopup();
+
+    } else if (identificacao == 'meusdados') {
+        trocadisplay('boxuserdados');
+        pg = 1;
+        tela = 'dadosUsuario';
+        box = 'boxuserdados';
+        listarDadosUsuario();
         openpopup();
 
     } else if (identificacao == 'comprados') {
@@ -750,7 +1155,8 @@ function trocatela(elem) {
             box = 'boxcarrinhodecompras';
             listarCarrinho();
         } else {
-            //LOGIN
+            alert('Você deve logar para prosseguir com esta ação!!!');
+            openLogin(1);
         }
 
     }
@@ -799,6 +1205,12 @@ function trocadisplay(a) {
         document.getElementById('boxcarrinhodecompras').style.display = 'block';
     } else {
         document.getElementById('boxcarrinhodecompras').style.display = 'none';
+    }
+
+    if (a == 'boxuserdados') {
+        document.getElementById('boxuserdados').style.display = 'block';
+    } else {
+        document.getElementById('boxuserdados').style.display = 'none';
     }
 }
 

@@ -10,8 +10,8 @@ function openpopup() {
             elemento.style.display = 'none';
         }
     } else {
-        //TROCAR PARA LOGIN
         alert('Você deve logar para prosseguir com esta ação!!!');
+        openLogin(1);
     }
 }
 
@@ -58,7 +58,83 @@ function openprodutoshistorico(elem) {
 
 }
 
+function openLogin(i) {
+    $('html,body').scrollTop(0);
+    if (i == 0) {
+        document.getElementById('corpo').style.display = 'none';
+        document.getElementsByTagName('body')[0].style.overflowY = 'scroll';
+        document.getElementById('formlogreg-interno').childNodes[1].style.display = 'none';
+    } else {
+        document.getElementById('corpo').style.display = 'inline-block';
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        document.getElementById('formlogreg-interno').childNodes[1].style.display = 'inline-block';
+    }
+}
+
+function openRegistro(i) {
+    $('html,body').scrollTop(0);
+    if (i == 0) {
+        document.getElementById('corpo').style.display = 'none';
+        document.getElementsByTagName('body')[0].style.overflowY = 'scroll';
+        document.getElementById('formlogreg-interno').childNodes[3].style.display = 'none';
+        document.getElementById('formlogreg-interno').childNodes[3].childNodes[1].style.display = 'none';
+        document.getElementById('formlogreg-interno').childNodes[3].childNodes[3].style.display = 'none';
+    } else if (i == 1) {
+        document.getElementById('corpo').style.display = 'inline-block';
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        document.getElementById('formlogreg-interno').childNodes[3].style.display = 'inline-block';
+        document.getElementById('formlogreg-interno').childNodes[3].childNodes[1].style.display = 'inline-block';
+    } else if (i == 2) {
+        document.getElementById('corpo').style.display = 'inline-block';
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        document.getElementById('formlogreg-interno').childNodes[3].style.display = 'inline-block';
+        document.getElementById('formlogreg-interno').childNodes[3].childNodes[3].style.display = 'inline-block';
+        carregaEstados(document.querySelector('select#estado'));
+    }
+}
+
+//USER
+function edicaodecampos(o) {
+    let elemento = document.getElementById('dadosUser').childNodes;
+
+    if (o == 0) {
+        for (let i = 0; i < (elemento.length - 5); i++) {
+            elemento[i].readOnly = true;
+        }
+    } else {
+        for (let i = 0; i < (elemento.length - 5); i++) {
+            elemento[i].readOnly = false;
+        }
+    }
+
+}
+
+function edicaodeendereco(o) {
+    let elemento = document.getElementById('dadosEndereco').childNodes;
+
+    if (o == 0) {
+        for (let i = 0; i < elemento.length; i++) {
+            elemento[i].readOnly = true;
+        }
+
+        document.getElementById('userestado').disabled = true;
+    } else {
+        for (let i = 0; i < elemento.length; i++) {
+            elemento[i].readOnly = false;
+        }
+
+        document.getElementById('userestado').disabled = false;
+    }
+
+}
+
 //IMAGENS
 function trocaimg(elem) {
     elem.parentNode.parentNode.children[1].children[0].src = elem.src;
+}
+
+function trocaImagemUser(elem) {
+    elem.parentNode.parentNode.children[2].children[0].src = elem.src;
+    localStorage.setItem('UserImg', elem.src);
+    elem.parentNode.parentNode.children[2].setAttribute('class', elem.classList[0]);
 }

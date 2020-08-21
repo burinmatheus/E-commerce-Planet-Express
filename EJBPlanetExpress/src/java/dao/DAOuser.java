@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.ModelEndereco;
 import model.ModelUser;
-import org.kohsuke.rngom.parse.Parseable;
 
 /**
  *
@@ -136,6 +135,59 @@ public class DAOuser {
         ps.close();
         return nome;
     }
+    
+    public ModelUser listardadosUsuario(int id) throws SQLException {
+        ModelUser user = new ModelUser();
+
+        String sql = "SELECT NOME, SOBRENOME, IMG, EMAIL, TELEFONE, CPF, RG, ENDERECO_ID " +
+                    "FROM USUARIOS " +
+                    "WHERE ID_USUARIO = "+id+" ";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            user.setNome(rs.getString("NOME"));
+            user.setSobrenome(rs.getString("SOBRENOME"));
+            user.setEmail(rs.getString("EMAIL"));
+            user.setTelefone(rs.getString("TELEFONE"));
+            user.setCpf(rs.getString("CPF"));
+            user.setRg(rs.getString("RG"));
+            user.setImg(rs.getString("IMG"));
+            user.setEndereco(rs.getInt("ENDERECO_ID"));
+        }
+        rs.close();
+        ps.close();
+
+        return user;
+    }
+        
+    public ModelEndereco listardadosEndereco(int id, String cpf) throws SQLException {
+        
+        int id_endereco = buscaEndereco(id, cpf);
+        
+        ModelEndereco endereco = new ModelEndereco();
+
+        String sql = "SELECT ESTADO_ID, CIDADE, CEP, BAIRRO, RUA, NUMERO " +
+                    "FROM ENDERECOS " +
+                    "WHERE ID_ENDERECO = "+id_endereco+" ";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            endereco.setCidade(rs.getString("CIDADE"));
+            endereco.setEstado(rs.getInt("ESTADO_ID"));
+            endereco.setCep(rs.getString("CEP"));
+            endereco.setBairro(rs.getString("BAIRRO"));
+            endereco.setRua(rs.getString("RUA"));
+            endereco.setNumero(rs.getInt("NUMERO"));
+        }
+        rs.close();
+        ps.close();
+
+        return endereco;
+    }    
 
     public void modificarSenha(ModelUser user) throws SQLException {
         String sql = "UPDATE usuarios "
